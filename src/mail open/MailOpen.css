@@ -1,0 +1,57 @@
+.emailDetail-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid whitesmoke;
+    padding: 0 15px;
+}
+
+.emailDetail-header svg{
+    font-size: 18px;
+}
+
+.emailDetail-headerLeft{
+    display: flex;
+    align-items: center;
+}
+
+.emailDetails-MiddleHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid whitesmoke;
+}
+
+.emailDetails-MiddleHeader svg{
+    font-size: 18px;
+}
+
+.emailDetails-MiddleHeaderLeft, .emailDetails-MiddleHeaderRight{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.emailDetails-MiddleHeader p{
+    font-size: 14px;
+}
+
+.emailDetails-Body{
+    display: flex;
+    padding: 10px 15px;
+}
+
+.emailDetail-Message{
+    box-shadow: 0 0 3px #ccc;
+    height: 100%;
+}
+
+.emailDetail{
+    position: relative;
+}
+
+.copyrightArka{
+    position: absolute;
+    bottom: 0;
+    left: 34%;
+}

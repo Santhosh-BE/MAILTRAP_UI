@@ -1,0 +1,27 @@
+.sidebar{
+    display: flex;
+    flex-direction: column;
+}
+
+.composeBtn{
+    padding: 10px 20px !important;
+    color: black !important;
+    border-radius: 40px !important;
+    box-shadow: 2px 2px 3px #ccc !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    margin-left: 10px !important;
+    max-width: 150px !important;
+}
+
+.sidebarHeading{
+    font-size: 15px;
+    padding-left: 25px;
+    border-top: 1px solid whitesmoke;
+    padding-top: 10px;
+}
+
+.sideBarIcons{
+    overflow-y: scroll;
+    height: 250px;
+}

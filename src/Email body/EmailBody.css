@@ -1,0 +1,62 @@
+.emailBody{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid whitesmoke;
+    padding: 0 10px;
+    height: 40px;
+}
+
+.emailBody:hover{
+    box-shadow: 2px 2px 4px whitesmoke;
+    cursor: pointer;
+}
+
+.emailBody-Left{
+    display: flex;
+    align-items: center;
+    flex: 20%;
+}
+
+.emailBody-Left svg{
+    font-size: 18px;
+    color: gray;
+    margin-right: 15px;
+}
+
+.emailBody-Left h4{
+    font-size: 14px;
+}
+
+.emailBody-Middle{
+    display: flex;
+    align-items: center;
+    flex: 70%;
+}
+
+.emailBody-Middle p{
+    font-size: 14px;
+}
+
+.emailBody-MiddleMessage{
+    display: flex;
+    width: 90%;
+}
+
+.emailBody-MiddleMessage p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+    max-width: 700px;
+    padding: 0 20px;
+}
+
+.emailBody-Right{
+    display: flex;
+    align-items: center;
+    flex: 10%;
+    justify-content: flex-end;
+}
+
+.emailBody-Right p{
+    font-size: 12px;
+}
