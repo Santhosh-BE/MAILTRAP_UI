@@ -14,23 +14,24 @@ import PhonelinkLockIcon from '@mui/icons-material/PhonelinkLock';
 import CreateIcon from '@mui/icons-material/Create';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useDispatch, useSelector } from 'react-redux';
-import { toggFalse } from '../redux store/composeSlice';
-import { db } from '../firebase/firebase'
-import firebase from 'firebase';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { toggFalse } from '../redux store/composeSlice';
+// import { db } from '../firebase/firebase'
+// import firebase from 'firebase';
 
-const Compose = () => {
+const Compose = ({setIsMessageopen}) => {
 
-    const user = useSelector((state) => state.user.user)
+    // const user = useSelector((state) => state.user.user)
 
     const [Email, setEmail] = useState('');
     const [Subject, setSubject] = useState('');
     const [Message, setMessage] = useState('');
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const closeCompose = () => {
-        dispatch(toggFalse())
+        // dispatch(toggFalse())
+        setIsMessageopen(false);
     }
 
     const submitInput = (e) => {
@@ -46,14 +47,14 @@ const Compose = () => {
             alert('Message is required')
         }
 
-        db.collection('composeData').add({
-            email: Email,
-            sub: Subject,
-            emailText: Message,
-            from: user.email,
-            fromName: user.name,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        })
+        // db.collection('composeData').add({
+        //     email: Email,
+        //     sub: Subject,
+        //     emailText: Message,
+        //     from: user.email,
+        //     fromName: user.name,
+        //     timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        // })
 
         setEmail('')
         setSubject('')
@@ -61,7 +62,7 @@ const Compose = () => {
 
         alert('Your Email is Sent!! 🚀🤟✓')
 
-        dispatch(toggFalse())
+        // dispatch(toggFalse())
     }
 
     return <div className='compose'>

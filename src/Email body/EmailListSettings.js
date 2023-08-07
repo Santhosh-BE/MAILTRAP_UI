@@ -10,7 +10,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 
-const EmailListSettings = ({ arrow }) => {
+const EmailListSettings = ({ arrow ,refreshClick}) => {
 
     const navigate = useNavigate()
 
@@ -25,7 +25,7 @@ const EmailListSettings = ({ arrow }) => {
             </IconButton>
 
             <IconButton>
-                <RefreshIcon></RefreshIcon>
+                <RefreshIcon onClick={refreshClick}></RefreshIcon>
             </IconButton>
 
             <IconButton>
