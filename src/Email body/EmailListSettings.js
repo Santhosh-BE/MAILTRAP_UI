@@ -13,11 +13,13 @@ import { useNavigate } from 'react-router-dom';
 const EmailListSettings = ({ arrow ,refreshClick}) => {
 
     const navigate = useNavigate()
-
+    const handleGoBack = () => {
+        navigate(-1); // Navigate back one step in history
+      };
     return <div className='emailList-settings'>
         <div className="emailList-settingsLeft">
             <IconButton>
-                {!arrow ? <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon> : <ArrowBackIcon onClick={() => { navigate('/') }}></ArrowBackIcon>}
+                {!arrow ? <CheckBoxOutlineBlankIcon></CheckBoxOutlineBlankIcon> : <ArrowBackIcon onClick={handleGoBack}></ArrowBackIcon>}
             </IconButton>
 
             <IconButton>

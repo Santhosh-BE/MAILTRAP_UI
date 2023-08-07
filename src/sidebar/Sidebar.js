@@ -11,6 +11,7 @@ import SendIcon from "@mui/icons-material/Send";
 import DraftsIcon from "@mui/icons-material/Drafts";
 // import LabelIcon from '@mui/icons-material/Label';
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 // import FindInPageIcon from '@mui/icons-material/FindInPage';
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import VideocamIcon from '@mui/icons-material/Videocam';
@@ -23,6 +24,7 @@ const Sidebar = ({setIsMessageopen}) => {
   const [SetActiveBut, setSetActiveBut] = useState(false);
   const [SetSend, setSetSend] = useState(false);
   // const dispatch = useDispatch()
+  const navigate = useNavigate();
 
   // dispatch(toggTrue())
   const data = {
@@ -80,6 +82,7 @@ const Sidebar = ({setIsMessageopen}) => {
           title="Inbox"
           number="500"
           isActive={SetActiveBut}
+          onClick={()=>navigate("/inbox")}
         ></SidebarOptions>
         {/* <SidebarOptions Icon={StarIcon} title='Starred' number='224'></SidebarOptions> */}
         {/* <SidebarOptions Icon={WatchLaterIcon} title='Snoozed' number='254'></SidebarOptions> */}

@@ -8,17 +8,38 @@ import EmailType from "./EmailType";
 import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { has } from "lodash";
 import moment from "moment";
+import { queryString } from "../Components/Constants/constants";
+import { Snackbar } from "@mui/material";
 
 const EmailList = () => {
   const [emailData, setEmailData] = useState([]);
+  const [snackbarMessage, setSnackbarMessage] = useState();
+  const userId = localStorage.getItem("userId");
   const date = new Date();
   const timeZone = "Asia/Kolkata";
   const formatters = [
     new Intl.DateTimeFormat("en-US", { timeStyle: "short", timeZone }),
   ];
-  const GetAllEmailList = useGetAllEmailQuery();
-  console.log(GetAllEmailList, "GetAllEmailList");
-  console.log(formatters[0].format(date));
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+  const handleClick = (newState) => () => {
+    setState({ ...newState, open: true });
+  };
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+  const GetAllEmailList = useGetAllEmailQuery(
+    queryString({ params: { id: userId } }),
+    {
+      skip: !userId,
+    }
+  );
+  // console.log(GetAllEmailList, "GetAllEmailList");
+  console.log(snackbarMessage, "snackbarMessage");
   // const Emails = [
   //   {
   //     id: 1,
@@ -61,38 +82,49 @@ const EmailList = () => {
   //         })))
   //     })
   // }, [])
-
+  useEffect(() => {
+    if (GetAllEmailList?.isError) {
+      setSnackbarMessage(GetAllEmailList?.error?.data?.error);
+      setState({ ...state, open: true });
+    }
+  }, [GetAllEmailList]);
   return (
     <div className="emailList">
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        message={snackbarMessage}
+        key={vertical + horizontal}
+        sx={{
+          "& .MuiSnackbar-root": {
+            backgroundColor: "blue", // Change the background color here
+          },
+        }}
+      />
       <EmailListSettings refreshClick={refreshClick} />
       {/* <EmailType></EmailType> */}
 
-      {GetAllEmailList?.isSuccess &&
-        has(GetAllEmailList, "data") &&
-        GetAllEmailList?.data?.map((data) => {
-          const formattedTime = moment(data?.createdby).format("HH:mm a");
-          return (
-            <>
-              {" "}
-              {
-                // data.email === user.email &&
-                sentRecord === false && (
-                  <EmailBody
-                    key={data.id}
-                    email={data.from}
-                    name={data.from}
-                    message={data.text}
-                    time={formattedTime}
-                    subject={data.subject}
-                  ></EmailBody>
-                )
-              }
-              {/* {
+      {GetAllEmailList?.isSuccess && has(GetAllEmailList, "data") && (
+        <>
+          {" "}
+          {
+            // data.email === user.email &&
+            sentRecord === false && (
+              <EmailBody
+                data={
+                  GetAllEmailList?.isSuccess &&
+                  has(GetAllEmailList, "data") &&
+                  GetAllEmailList?.data
+                }
+              ></EmailBody>
+            )
+          }
+          {/* {
                             sentRecord === true && data.email !== user.email && (<EmailBody key={id} email={data.from} name={data.fromName} message={data.emailText} time={new Date(data.timestamp?.seconds * 1000).toLocaleTimeString()} subject={data.sub}></EmailBody>)
                         } */}
-            </>
-          );
-        })}
+        </>
+      )}
     </div>
   );
 };

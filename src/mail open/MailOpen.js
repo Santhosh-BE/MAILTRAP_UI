@@ -1,78 +1,90 @@
-import React from 'react';
-import EmailListSettings from '../Email body/EmailListSettings';
-import './MailOpen.css'
-import LabelImportantIcon from '@mui/icons-material/LabelImportant';
-import { Avatar, IconButton } from '@mui/material';
-import PrintIcon from '@mui/icons-material/Print';
-import LaunchIcon from '@mui/icons-material/Launch';
-import StarIcon from '@mui/icons-material/Star';
-import ReplyIcon from '@mui/icons-material/Reply';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { useSelector } from 'react-redux';
+import React from "react";
+import EmailListSettings from "../Email body/EmailListSettings";
+import "./MailOpen.css";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import { Avatar, IconButton } from "@mui/material";
+import PrintIcon from "@mui/icons-material/Print";
+import LaunchIcon from "@mui/icons-material/Launch";
+import StarIcon from "@mui/icons-material/Star";
+import ReplyIcon from "@mui/icons-material/Reply";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import { queryString } from "../Components/Constants/constants";
+import { useParams } from "react-router-dom";
+import { has } from "lodash";
+// import { useSelector } from 'react-redux';
 
 const MailOpen = () => {
+  const { messageId } = useParams();
+  const EmailByIdData = useGetEmailByIdQuery(
+    queryString({ params: { id: messageId } }),
+    {
+      skip: !messageId,
+    }
+  );
+  console.log(EmailByIdData, "EmailByIdData");
+  return (
+    <div className="emailDetail">
+      <EmailListSettings arrow></EmailListSettings>
 
-    const emailDetailsOnBody = useSelector((state) => state.compose.selectedMessage)
-
-    return <div className='emailDetail'>
-        <EmailListSettings arrow></EmailListSettings>
-
+      {EmailByIdData?.isSuccess && has(EmailByIdData, "data") && (
         <div className="emailDetail-Message">
-            <div className="emailDetail-header">
-                <div className="emailDetail-headerLeft">
-                    <h4> {emailDetailsOnBody.subject} </h4>
+          <div className="emailDetail-header">
+            <div className="emailDetail-headerLeft">
+              <h4> {EmailByIdData?.data[0]?.subject} </h4>
 
-                    <IconButton>
-                        <LabelImportantIcon></LabelImportantIcon>
-                    </IconButton>
-                </div>
-
-                <div className="emailDetail-headerRight">
-                    <IconButton>
-                        <PrintIcon></PrintIcon>
-                    </IconButton>
-
-                    <IconButton>
-                        <LaunchIcon></LaunchIcon>
-                    </IconButton>
-                </div>
+              <IconButton>
+                <LabelImportantIcon></LabelImportantIcon>
+              </IconButton>
             </div>
 
-            <div className="emailDetails-MiddleHeader">
-                <div className="emailDetails-MiddleHeaderLeft">
-                    <IconButton>
-                        <Avatar></Avatar>
-                    </IconButton>
+            <div className="emailDetail-headerRight">
+              <IconButton>
+                <PrintIcon></PrintIcon>
+              </IconButton>
 
-                    <h4> {emailDetailsOnBody.name} </h4>
-                    <p> {emailDetailsOnBody.email} </p>
-                </div>
+              <IconButton>
+                <LaunchIcon></LaunchIcon>
+              </IconButton>
+            </div>
+          </div>
 
-                <div className="emailDetails-MiddleHeaderRight">
-                    <p> {emailDetailsOnBody.time} </p>
+          <div className="emailDetails-MiddleHeader">
+            <div className="emailDetails-MiddleHeaderLeft">
+              <IconButton>
+                <Avatar></Avatar>
+              </IconButton>
 
-                    <IconButton>
-                        <StarIcon></StarIcon>
-                    </IconButton>
-
-                    <IconButton>
-                        <ReplyIcon></ReplyIcon>
-                    </IconButton>
-
-                    <IconButton>
-                        <MoreVertIcon></MoreVertIcon>
-                    </IconButton>
-                </div>
+              <h4> {EmailByIdData?.data[0]?.from} </h4>
+              <p> to {EmailByIdData?.data[0]?.to} </p>
             </div>
 
-            <div className="emailDetails-Body">
-                <p> {emailDetailsOnBody.message} </p>
+            <div className="emailDetails-MiddleHeaderRight">
+              <p> {EmailByIdData?.data[0]?.time} </p>
+
+              <IconButton>
+                <StarIcon></StarIcon>
+              </IconButton>
+
+              <IconButton>
+                <ReplyIcon></ReplyIcon>
+              </IconButton>
+
+              <IconButton>
+                <MoreVertIcon></MoreVertIcon>
+              </IconButton>
             </div>
+          </div>
 
+          <div className="emailDetails-Body">
+            <p> {EmailByIdData?.data[0]?.text} </p>
+          </div>
 
-            <p className='copyrightArka'>&copy; Developed by Santhosh</p>
+          {/* <p className="copyrightArka">&copy; Developed by Santhosh</p> */}
         </div>
-    </div>;
+      )}
+    </div>
+  );
 };
 
 export default MailOpen;

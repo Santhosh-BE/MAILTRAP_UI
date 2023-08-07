@@ -4,7 +4,19 @@ const apiWithTag = interceptorsApiCall.enhanceEndpoints({ addTagTypes: ["IssuerN
 export const EmailApi = apiWithTag.injectEndpoints({
 	endpoints: (builder) => ({
 		getAllEmail: builder.query({
-			query: () => `mail`,
+			query: (params) => `mail?${params}`,
+		}),
+		loginPostApi: builder.mutation({
+			query: (payload) => {
+			  return {
+				url: "v1/login",
+				method: "POST",
+				body: payload,
+			  };
+			},
+		  }),
+		  getEmailById: builder.query({
+			query: (params) => `getmail?${params}`,
 		}),
 		// getIssuerNotes: builder.query({
 		// 	query: (params) => `api/Issuer/GetIssuerNotesList?${params}`,
@@ -46,4 +58,4 @@ export const EmailApi = apiWithTag.injectEndpoints({
 	
 });
 
-export const { useGetAllEmailQuery } = EmailApi;
+export const { useGetAllEmailQuery , useLoginPostApiMutation , useGetEmailByIdQuery } = EmailApi;
