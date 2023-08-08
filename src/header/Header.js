@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header = ({setHamburgerIcon,hamburgerIcon}) => {
     const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -37,7 +37,7 @@ const Header = () => {
     <div className="header">
       <div className="header-left">
         <IconButton>
-          <ReorderIcon></ReorderIcon>
+          <ReorderIcon onClick={()=>setHamburgerIcon(!hamburgerIcon)}></ReorderIcon>
         </IconButton>
         {/* <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_2x_r2.png" alt="" /> */}
       </div>
@@ -79,8 +79,8 @@ const Header = () => {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
+          {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleClose}>My account</MenuItem> */}
           <MenuItem onClick={logOut}>Logout</MenuItem>
         </Menu>
       </div>

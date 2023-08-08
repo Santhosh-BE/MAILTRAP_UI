@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 // import { toggTrue } from '../redux store/composeSlice'
 // import { hideEmail, showEmail } from '../redux store/sentRecordSlice'
 
-const Sidebar = ({setIsMessageopen}) => {
+const Sidebar = ({setIsMessageOpen , hamburgerIcon}) => {
   const [SetActiveBut, setSetActiveBut] = useState(false);
   const [SetSend, setSetSend] = useState(false);
   // const dispatch = useDispatch()
@@ -65,21 +65,23 @@ const Sidebar = ({setIsMessageopen}) => {
   //     setSetSend(true)
   //     setSetActiveBut(false)
   // }
-
+const composeModalOpen =()=>{
+  setIsMessageOpen(true);
+}
   return (
     <div className="sidebar">
       <Button
         startIcon={<AddIcon></AddIcon>}
-        className="composeBtn"
-        onClick={() => setIsMessageopen(true)}
+        className={!hamburgerIcon?"composeBtn":"composeBtnIcon"}
+        onClick={composeModalOpen}
       >
-        Compose
+        {!hamburgerIcon?"Compose":""}
       </Button>
 
       <div className="sideBarIcons">
         <SidebarOptions
           Icon={InboxIcon}
-          title="Inbox"
+          title={!hamburgerIcon?"Inbox":""}
           number="500"
           isActive={SetActiveBut}
           onClick={()=>navigate("/inbox")}
@@ -101,7 +103,7 @@ const Sidebar = ({setIsMessageopen}) => {
         {/* <SidebarOptions Icon={LabelIcon} title='Category' number='224'></SidebarOptions> */}
         <SidebarOptions
           Icon={DeleteIcon}
-          title="Trash"
+          title={!hamburgerIcon?"Trash":""}
           number="224"
         ></SidebarOptions>
         {/* <SidebarOptions Icon={FindInPageIcon} title='Documents' number='224'></SidebarOptions>

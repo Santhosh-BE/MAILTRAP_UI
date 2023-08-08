@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EmailListSettings from "../Email body/EmailListSettings";
 import "./MailOpen.css";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
@@ -8,7 +8,10 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import StarIcon from "@mui/icons-material/Star";
 import ReplyIcon from "@mui/icons-material/Reply";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import {
+  useGetEmailByIdQuery,
+  useUpdateStatusApiMutation,
+} from "../Services/Email/EmailApi";
 import { queryString } from "../Components/Constants/constants";
 import { useParams } from "react-router-dom";
 import { has } from "lodash";
@@ -22,7 +25,14 @@ const MailOpen = () => {
       skip: !messageId,
     }
   );
+  const [UpdateStatus, UpdateStatusData] = useUpdateStatusApiMutation();
   console.log(EmailByIdData, "EmailByIdData");
+  useEffect(() => {
+    UpdateStatus({
+      id: messageId,
+      Read: 1,
+    });
+  }, []);
   return (
     <div className="emailDetail">
       <EmailListSettings arrow></EmailListSettings>

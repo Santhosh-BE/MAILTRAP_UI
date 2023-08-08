@@ -88,6 +88,9 @@ const EmailList = () => {
       setState({ ...state, open: true });
     }
   }, [GetAllEmailList]);
+  useEffect(() => {
+    GetAllEmailList.refetch();
+  }, []);
   return (
     <div className="emailList">
       <Snackbar

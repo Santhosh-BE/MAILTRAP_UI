@@ -105,18 +105,21 @@ import PrivateRoute from "./PrivateRoute";
 // };
 const App = () => {
   const [isMessageOpen, setIsMessageOpen] = useState(false);
-
+  const [hamburgerIcon, setHamburgerIcon] = useState(false);
+  console.log(isMessageOpen, "isMessageOpen");
   return (
     <>
       {localStorage.getItem("ACCESS_TOKEN") ? (
         <div className="userWrap">
-          <Header />
-          <div className="app-body">
-            <Sidebar setIsMessageOpen={setIsMessageOpen} />
+          {/* <Compose setIsMessageOpen={setIsMessageOpen} /> */}
+          <Header setHamburgerIcon={setHamburgerIcon} hamburgerIcon={hamburgerIcon}/>
+          <div className={hamburgerIcon?"app-body-icon":"app-body"}>
+            <Sidebar setIsMessageOpen={setIsMessageOpen} hamburgerIcon={hamburgerIcon}/>
             <Routes>
               <Route path="/inbox" element={<EmailList />} />
               <Route path="/mailbox/:messageId" element={<MailOpen />} />
             </Routes>
+          {isMessageOpen && <Compose setIsMessageOpen={setIsMessageOpen} />}
           </div>
         </div>
       ) : (
@@ -125,7 +128,6 @@ const App = () => {
             <Route path="/" element={<Login />}></Route>
           </Routes>
 
-          {isMessageOpen && <Compose setIsMessageOpen={setIsMessageOpen} />}
         </div>
       )}
     </>
