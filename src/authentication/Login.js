@@ -134,7 +134,7 @@ const Login = () => {
             helperText={passwordError}
           />
           <Button variant="contained" color="primary" onClick={runLogin}>
-            Login with Gmail
+            Login
           </Button>
         </Box>
       </div>

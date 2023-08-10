@@ -16,55 +16,11 @@ import { useNavigate } from "react-router-dom";
 // import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import VideocamIcon from '@mui/icons-material/Videocam';
 // import KeyboardIcon from '@mui/icons-material/Keyboard';
-// import { useDispatch } from 'react-redux';
-// import { toggTrue } from '../redux store/composeSlice'
-// import { hideEmail, showEmail } from '../redux store/sentRecordSlice'
 
 const Sidebar = ({setIsMessageOpen , hamburgerIcon}) => {
   const [SetActiveBut, setSetActiveBut] = useState(false);
   const [SetSend, setSetSend] = useState(false);
-  // const dispatch = useDispatch()
   const navigate = useNavigate();
-
-  // dispatch(toggTrue())
-  const data = {
-    name: "saravanan chandrasekaran",
-    email: "csaravananit+1@gmail.com",
-    phone_number: "9095115564",
-    message: "hello",
-  };
-  async function openCompose(data) {
-    console.log(data, "dta");
-    try {
-      const response = await fetch(
-        "http://192.168.1.131:3001/user/newRegistration",
-        {
-          method: "POST", // or 'PUT'
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-
-      const result = await response.json();
-      console.log("Success:", result);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  // const hideSentEmail = () => {      Inbox
-  //     dispatch(hideEmail())
-  //     setSetActiveBut(true)
-  //     setSetSend(false)
-  // }
-
-  // const getSentEmail = () => {       Sent
-  //     dispatch(showEmail())
-  //     setSetSend(true)
-  //     setSetActiveBut(false)
-  // }
 const composeModalOpen =()=>{
   setIsMessageOpen(true);
 }
@@ -101,11 +57,11 @@ const composeModalOpen =()=>{
           number="224"
         ></SidebarOptions> */}
         {/* <SidebarOptions Icon={LabelIcon} title='Category' number='224'></SidebarOptions> */}
-        <SidebarOptions
+        {/* <SidebarOptions
           Icon={DeleteIcon}
           title={!hamburgerIcon?"Trash":""}
           number="224"
-        ></SidebarOptions>
+        ></SidebarOptions> */}
         {/* <SidebarOptions Icon={FindInPageIcon} title='Documents' number='224'></SidebarOptions>
             <SidebarOptions Icon={ExpandMoreIcon} title='More' number='224'></SidebarOptions> */}
       </div>

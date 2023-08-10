@@ -5,16 +5,12 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { Checkbox } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteMailApiMutation } from "../Services/Email/EmailApi";
-// import { useDispatch } from 'react-redux';
-// import { openMessage } from '../redux store/composeSlice';
 
 const EmailBody = ({ data }) => {
   const navigate = useNavigate();
   const [deleteMailApi, DeleteMailApiData] = useDeleteMailApiMutation();
-  // const dispatch = useDispatch()
 
   const goToMessage = (messageId) => {
     navigate(`/mailbox/${messageId}`);
@@ -30,8 +26,6 @@ const EmailBody = ({ data }) => {
         return (
           <div className="emailBody">
             <div className="emailBody-Left">
-              {/* <CheckBoxOutlineBlankIcon ></CheckBoxOutlineBlankIcon> */}
-              {/* <Checkbox id={item?.id}  onChange={(e)=>console.log("id",e.target.id)} /> */}
               <DeleteIcon onClick={() => handleDelete(item.id)} />
               <StarBorderIcon></StarBorderIcon>
               <LabelOutlinedIcon></LabelOutlinedIcon>

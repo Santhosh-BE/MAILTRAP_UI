@@ -7,8 +7,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AppsIcon from "@mui/icons-material/Apps";
-import { useSelector } from "react-redux";
-import { auth } from "../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({setHamburgerIcon,hamburgerIcon}) => {
@@ -21,8 +19,6 @@ const Header = ({setHamburgerIcon,hamburgerIcon}) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  // const user = useSelector((state) => state.user.user)
 
   const logOut = () => {
     localStorage.removeItem("userId");
@@ -39,7 +35,6 @@ const Header = ({setHamburgerIcon,hamburgerIcon}) => {
         <IconButton>
           <ReorderIcon onClick={()=>setHamburgerIcon(!hamburgerIcon)}></ReorderIcon>
         </IconButton>
-        {/* <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_2x_r2.png" alt="" /> */}
       </div>
 
       <div className="header-middle">

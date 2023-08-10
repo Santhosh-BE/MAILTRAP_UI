@@ -15,7 +15,6 @@ import {
 import { queryString } from "../Components/Constants/constants";
 import { useParams } from "react-router-dom";
 import { has } from "lodash";
-// import { useSelector } from 'react-redux';
 
 const MailOpen = () => {
   const { messageId } = useParams();
@@ -26,7 +25,6 @@ const MailOpen = () => {
     }
   );
   const [UpdateStatus, UpdateStatusData] = useUpdateStatusApiMutation();
-  console.log(EmailByIdData, "EmailByIdData");
   useEffect(() => {
     UpdateStatus({
       id: messageId,
@@ -89,8 +87,6 @@ const MailOpen = () => {
           <div className="emailDetails-Body">
             <p> {EmailByIdData?.data[0]?.text} </p>
           </div>
-
-          {/* <p className="copyrightArka">&copy; Developed by Santhosh</p> */}
         </div>
       )}
     </div>
