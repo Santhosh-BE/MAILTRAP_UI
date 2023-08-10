@@ -1,19 +1,5 @@
 import React, { useState } from "react";
 import "./Compose.css";
-import RemoveIcon from "@mui/icons-material/Remove";
-import HeightIcon from "@mui/icons-material/Height";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import FormatColorTextIcon from "@mui/icons-material/FormatColorText";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import LinkIcon from "@mui/icons-material/Link";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
-import PhotoIcon from "@mui/icons-material/Photo";
-import PhonelinkLockIcon from "@mui/icons-material/PhonelinkLock";
-import CreateIcon from "@mui/icons-material/Create";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useComposePostApiMutation } from "../Services/Email/EmailApi";
 
 const Compose = ({ setIsMessageOpen }) => {
@@ -69,9 +55,7 @@ var username = parts[0];
         </div>
 
         <div className="compose-headerRight">
-          <RemoveIcon></RemoveIcon>
-          <HeightIcon></HeightIcon>
-          <CloseIcon onClick={closeCompose}></CloseIcon>
+     
         </div>
       </div>
 
@@ -114,21 +98,12 @@ var username = parts[0];
         <div className="compose-footer">
           <div className="compose-footerLeft">
             <button type="submit">
-              Send <ArrowDropDownIcon></ArrowDropDownIcon>
+              Send 
             </button>
           </div>
 
           <div className="compose-footerRight">
-            {/* <FormatColorTextIcon></FormatColorTextIcon> */}
-            <AttachFileIcon></AttachFileIcon>
-            {/* <LinkIcon></LinkIcon>
-                    <InsertEmoticonIcon></InsertEmoticonIcon>
-                    <NoteAddIcon></NoteAddIcon>
-                    <PhotoIcon></PhotoIcon>
-                    <PhonelinkLockIcon></PhonelinkLockIcon>
-                    <CreateIcon></CreateIcon>
-                    <MoreVertIcon></MoreVertIcon>
-                    <DeleteIcon></DeleteIcon> */}
+           
           </div>
         </div>
       </form>

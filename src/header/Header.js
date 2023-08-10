@@ -1,12 +1,5 @@
 import React from "react";
 import "./Header.css";
-import ReorderIcon from "@mui/icons-material/Reorder";
-import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AppsIcon from "@mui/icons-material/Apps";
 import { useNavigate } from "react-router-dom";
 
 const Header = ({setHamburgerIcon,hamburgerIcon}) => {
@@ -30,56 +23,8 @@ const Header = ({setHamburgerIcon,hamburgerIcon}) => {
   };
 
   return (
-    <div className="header">
-      <div className="header-left">
-        <IconButton>
-          <ReorderIcon onClick={()=>setHamburgerIcon(!hamburgerIcon)}></ReorderIcon>
-        </IconButton>
-      </div>
-
-      <div className="header-middle">
-        <div className="search-mail">
-          <IconButton>
-            <SearchIcon></SearchIcon>
-          </IconButton>
-
-          <input type="text" placeholder="Search Mail" />
-
-          <IconButton>
-            <ExpandMoreIcon></ExpandMoreIcon>
-          </IconButton>
-        </div>
-      </div>
-
-      <div className="header-right" style={{ justifyContent: "end" }}>
-        {/* <IconButton>
-                <HelpOutlinedIcon></HelpOutlinedIcon>
-            </IconButton>
-
-            <IconButton>
-                <SettingsIcon></SettingsIcon>
-            </IconButton>
-
-            <IconButton>
-                <AppsIcon></AppsIcon>
-            </IconButton> */}
-
-        <Avatar src={""} onClick={handleClick}></Avatar>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem> */}
-          <MenuItem onClick={logOut}>Logout</MenuItem>
-        </Menu>
-      </div>
-    </div>
+   <>
+   </>
   );
 };
 

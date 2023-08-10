@@ -1,11 +1,7 @@
 import React from "react";
 import "./EmailBody.css";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { useDeleteMailApiMutation } from "../Services/Email/EmailApi";
 
 const EmailBody = ({ data }) => {
@@ -21,35 +17,6 @@ const EmailBody = ({ data }) => {
   };
   return (
     <>
-      {data?.map((item, i) => {
-        const formattedTime = moment(data?.createdby).format("HH:mm a");
-        return (
-          <div className="emailBody">
-            <div className="emailBody-Left">
-              <DeleteIcon onClick={() => handleDelete(item.id)} />
-              <StarBorderIcon></StarBorderIcon>
-              <LabelOutlinedIcon></LabelOutlinedIcon>
-              {item?.Read === 0 ?<h4> {item?.title} </h4>:item?.title}
-            </div>
-            <div
-              className="emailBody-Middle"
-              onClick={() => goToMessage(item?.id)}
-              key={i}
-            >
-              <div className="emailBody-MiddleMessage">
-                <p>
-                  {item?.Read === 0 ? <b> {item?.subject} </b> : item?.subject}
-                  {item?.message}{" "}
-                </p>
-              </div>
-            </div>
-
-            <div className="emailBody-Right">
-              {item?.Read === 0 ? <b> {formattedTime} </b> : formattedTime}
-            </div>
-          </div>
-        );
-      })}
     </>
   );
 };

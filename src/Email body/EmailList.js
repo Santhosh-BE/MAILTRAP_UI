@@ -5,7 +5,7 @@ import EmailListSettings from "./EmailListSettings";
 import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { has } from "lodash";
 import { queryString } from "../Components/Constants/constants";
-import { Snackbar } from "@mui/material";
+
 
 const EmailList = () => {
   const [snackbarMessage, setSnackbarMessage] = useState();
@@ -40,43 +40,8 @@ const EmailList = () => {
     GetAllEmailList.refetch();
   }, []);
   return (
-    <div className="emailList">
-      <Snackbar
-        anchorOrigin={{ vertical, horizontal }}
-        open={open}
-        onClose={handleClose}
-        message={snackbarMessage}
-        key={vertical + horizontal}
-        sx={{
-          "& .MuiSnackbar-root": {
-            backgroundColor: "blue",
-          },
-        }}
-      />
-      <EmailListSettings refreshClick={refreshClick} />
-      {/* <EmailType></EmailType> */}
-
-      {GetAllEmailList?.isSuccess && has(GetAllEmailList, "data") && (
-        <>
-          {" "}
-          {
-            // data.email === user.email &&
-            sentRecord === false && (
-              <EmailBody
-                data={
-                  GetAllEmailList?.isSuccess &&
-                  has(GetAllEmailList, "data") &&
-                  GetAllEmailList?.data
-                }
-              ></EmailBody>
-            )
-          }
-          {/* {
-                            sentRecord === true && data.email !== user.email && (<EmailBody key={id} email={data.from} name={data.fromName} message={data.emailText} time={new Date(data.timestamp?.seconds * 1000).toLocaleTimeString()} subject={data.sub}></EmailBody>)
-                        } */}
-        </>
-      )}
-    </div>
+    <>
+    </>
   );
 };
 
