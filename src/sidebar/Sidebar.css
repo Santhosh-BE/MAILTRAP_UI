@@ -30,7 +30,9 @@
     border-top: 1px solid whitesmoke;
     padding-top: 10px;
 }
-
+.sidebarbg{
+    background-color: #262626;
+}
 .sideBarIcons{
     overflow-y: scroll;
     height: 250px;

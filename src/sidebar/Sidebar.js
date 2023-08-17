@@ -1,45 +1,38 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
-
-import SidebarOptions from "./sidebar options/SidebarOptions";
-
+import { sidebarlabel } from "../Components/Constants/constants";
+import { HiOutlineMail } from "react-icons/hi";
+import { FaInbox, FaTrash} from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
 const Sidebar = ({ setIsMessageOpen, hamburgerIcon }) => {
-    const [SetActiveBut, setSetActiveBut] = useState(false);
-    const [SetSend, setSetSend] = useState(false);
+    const [activeButton, setActiveButton] = useState(false);
+    const [sendActive, setSendActive] = useState(false);
+
     const composeModalOpen = () => {
         setIsMessageOpen(true);
     };
+
     return (
-        <div className="sidebar">
-            <div className="sideBarIcons">
-                {/* <SidebarOptions Icon={StarIcon} title='Starred' number='224'></SidebarOptions> */}
-                {/* <SidebarOptions Icon={WatchLaterIcon} title='Snoozed' number='254'></SidebarOptions> */}
-                {/* <SidebarOptions Icon={LabelImportantIcon} title='Important' number='452'></SidebarOptions> */}
-                {/* <SidebarOptions
-          Icon={SendIcon}
-          title="Sent"
-          number="224"
-          setSend={SetSend}
-        ></SidebarOptions>
-        <SidebarOptions
-          Icon={DraftsIcon}
-          title="Drafts"
-          number="224"
-        ></SidebarOptions> */}
-                {/* <SidebarOptions Icon={LabelIcon} title='Category' number='224'></SidebarOptions> */}
-                {/* <SidebarOptions
-          Icon={DeleteIcon}
-          title={!hamburgerIcon?"Trash":""}
-          number="224"
-        ></SidebarOptions> */}
-                {/* <SidebarOptions Icon={FindInPageIcon} title='Documents' number='224'></SidebarOptions>
-            <SidebarOptions Icon={ExpandMoreIcon} title='More' number='224'></SidebarOptions> */}
-            </div>
-
-            {/* <h3 className="sidebarHeading">Meet</h3>
-
-        <SidebarOptions Icon={VideocamIcon} title='New Meeting'></SidebarOptions>
-        <SidebarOptions Icon={KeyboardIcon} title='Join a meeting'></SidebarOptions> */}
+        <div className="  h-screen bg-stone-800 sidebarbg col-span-2" style={{ backgroundColor: "rgb(38,38,38)" }}>
+            {sidebarlabel.map((label) => (
+                <div
+                    className={`ms-5 mt-5 me-5 text-white ${
+                        label === "MailTrap" ? " ms-0 me-0 bg-blue-700 p-3 flex" : " flex p-3 hover:bg-neutral-600 w-91 rounded-md"
+                    }`}
+                    key={label}
+                >
+                    {label === "MailTrap" ? (
+                        <HiOutlineMail className="me-2" size={22} />
+                    ) : label === "Inbox" ? (
+                        <FaInbox size={22} className="me-2" />
+                    ) : (
+                        <FaTrash className="me-2" />
+                    )}
+                    <div className="flex">
+                        <p>{label}</p>
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };
