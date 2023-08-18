@@ -4,8 +4,7 @@ import { BsInfoCircleFill, BsTrashFill } from "react-icons/bs";
 import { useDeleteMailApiMutation, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
 import { IoMdMailUnread } from "react-icons/io";
 
-import { LABEL, label, queryString } from "../Components/Constants/constants";
-import Model from "../Components/Constants/model";
+import { LABEL, queryString } from "../Components/Constants/constants";
 import Swal from "sweetalert2";
 
 const EmailBody = ({ id }) => {
@@ -19,7 +18,11 @@ const EmailBody = ({ id }) => {
     }, [id]);
     const handleinfo = (data) => {
         Swal.fire({
+            background: "#2d3748",
+            color: "#cbd5e0",
             title: "Information",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
             html: `
                 <div style="text-align: left; padding: 10px;">
                     <p style="margin-bottom: 3px"><strong>From:</strong> ${data?.from}</p>
@@ -54,7 +57,6 @@ const EmailBody = ({ id }) => {
     };
     return (
         <>
-            <Model open={open} setOpen={setOpen} data={maildata} btnvalue2={"OK, Got It"} />
             {maildata?.data && maildata?.data?.length ? (
                 maildata?.data.map((data) => {
                     return (
