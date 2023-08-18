@@ -32,7 +32,7 @@ const EmailList = ({ setId }) => {
             setState({ ...state, open: true });
         }
     }, [GetAllEmailList]);
-    
+
     useEffect(() => {
         GetAllEmailList.refetch();
     }, []);
@@ -76,7 +76,7 @@ const EmailList = ({ setId }) => {
                                     <div
                                         class="item2 col-span-10"
                                         onClick={() => {
-                                          setId(value?.id);
+                                            setId(value?.id);
                                         }}
                                     >
                                         <div className="grid grid-cols-12">
