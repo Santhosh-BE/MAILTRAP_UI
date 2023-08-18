@@ -52,7 +52,7 @@ export default function Model({ open, setOpen, data, btnvalue1, btnvalue2 }) {
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                    {btnvalue1 && btnvalue1.length ? (
+                                    {btnvalue1 && btnvalue1?.length ? (
                                         <button
                                             type="button"
                                             className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
@@ -63,7 +63,7 @@ export default function Model({ open, setOpen, data, btnvalue1, btnvalue2 }) {
                                     ) : (
                                         ""
                                     )}
-                                    {btnvalue2 && btnvalue1.length ? (
+                                    {btnvalue2 && btnvalue2?.length ? (
                                         <button
                                             type="button"
                                             className="mt-3 border-none inline-flex w-full justify-center rounded-md bg-sky-700 px-5 py-2 text-sm font-semibold text-white sm:mt-0 sm:w-auto"
