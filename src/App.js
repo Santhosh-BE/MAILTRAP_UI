@@ -10,12 +10,14 @@ import EmailBody from "./Email body/EmailBody";
 const App = () => {
     const [isMessageOpen, setIsMessageOpen] = useState(false);
     const [hamburgerIcon, setHamburgerIcon] = useState(false);
+    const [id,setId]=useState();
+    console.log(id," setId(id);")
     return (
         <>
             <div className="grid grid-cols-12">
                 <Sidebar />
-                <EmailList />
-                <EmailBody />
+                <EmailList setId={setId}/>
+                <EmailBody id={id}/>
             </div>
         </>
     );

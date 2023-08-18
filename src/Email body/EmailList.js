@@ -2,31 +2,29 @@ import React, { useEffect, useState } from "react";
 import EmailBody from "./EmailBody";
 import "./EmailList.css";
 import EmailListSettings from "./EmailListSettings";
-import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
+import { useGetAllEmailQuery, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
 import { queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
+import { values } from "lodash";
 
-const EmailList = () => {
+const EmailList = ({ setId }) => {
     const [snackbarMessage, setSnackbarMessage] = useState();
-    const userId = localStorage.getItem("userId");
+
     const [state, setState] = React.useState({
         open: false,
         vertical: "top",
         horizontal: "center",
     });
-    const emptyArray = new Array(10).fill("");
     const { vertical, horizontal, open } = state;
     const handleClose = () => {
         setState({ ...state, open: false });
     };
-    const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { id: userId } }), {
-        skip: !userId,
-    });
+    const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { page: "1", pageLimit: "15" } }));
     const refreshClick = () => {
         GetAllEmailList.refetch();
     };
-
+    console.log(GetAllEmailList?.data?.data);
     const sentRecord = false;
     useEffect(() => {
         if (GetAllEmailList?.isError) {
@@ -34,6 +32,7 @@ const EmailList = () => {
             setState({ ...state, open: true });
         }
     }, [GetAllEmailList]);
+    
     useEffect(() => {
         GetAllEmailList.refetch();
     }, []);
@@ -60,7 +59,7 @@ const EmailList = () => {
                     <hr style={{ borderColor: "gray" }} />
                     <div class="scrollable-grid-container">
                         <div class="grid-container grid grid-cols-12 mt-2 ">
-                            {emptyArray.map(() => (
+                            {GetAllEmailList?.data?.data.map((value) => (
                                 <>
                                     <div class="item2 col-span-2 p-5">
                                         <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
@@ -74,22 +73,26 @@ const EmailList = () => {
                                             </svg>
                                         </div>
                                     </div>
-                                    <div class="item2 col-span-10">
+                                    <div
+                                        class="item2 col-span-10"
+                                        onClick={() => {
+                                          setId(value?.id);
+                                        }}
+                                    >
                                         <div className="grid grid-cols-12">
                                             <div className="col-span-9">
-                                                <p className="mt-3">Mark Andrew</p>
-                                                <p className="text-zinc-400">Work Enquire</p>
+                                                <p className="mt-3">{value?.title}</p>
+                                                <p className="text-zinc-400">
+                                                    {value?.subject.length > 37 ? `${value?.subject.substring(0, 37)}` : value?.subject}
+                                                </p>
                                             </div>
                                             <div className="col-span-3 ms-6 text-zinc-500 text-xs flex">
-                                              <label className="mt-5">Aug 17</label> 
-                                              
-                                                <BsDot className="mt-3 text-md text-sky-500" size={30}/>
-                                              
-                                              </div>
+                                                <label className="mt-5">Aug 17</label>
+
+                                                <BsDot className="mt-3 text-md text-sky-500" size={30} />
+                                            </div>
                                         </div>
-                                        <p className="text-zinc-600">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
-                                        </p>
+                                        <p className="text-zinc-600">{value.text.length > 90 ? `${value.text.substring(0, 90)}...` : value.text}</p>
                                         <hr className="mt-1 bg-zinc-600" style={{ borderColor: "transparent" }} />
                                     </div>
                                 </>
