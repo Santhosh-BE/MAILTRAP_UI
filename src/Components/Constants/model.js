@@ -38,9 +38,15 @@ export default function Model({ open, setOpen, data }) {
                                                 Mail info
                                             </Dialog.Title>
                                             <div className="mt-2 text-gray-500 ">
-                                                <p className="mb-1">From: {data?.data[0]?.from}</p>
-                                                <p className="mb-1">To: {data?.data[0]?.to}</p>
-                                                <p className="mb-1">Subject: {data?.data[0]?.subject}</p>
+                                                {data?.data && data.data.length > 0 ? (
+                                                    <div>
+                                                        <p className="mb-1">From: {data.data[0]?.from}</p>
+                                                        <p className="mb-1">To: {data.data[0]?.to}</p>
+                                                        <p className="mb-1">Subject: {data.data[0]?.subject}</p>
+                                                    </div>
+                                                ) : (
+                                                    <p>No data available.</p>
+                                                )}
                                             </div>
                                         </div>
                                     </div>
