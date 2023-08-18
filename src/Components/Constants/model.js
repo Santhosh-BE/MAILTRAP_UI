@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export default function Model({ open, setOpen, data }) {
+export default function Model({ open, setOpen, data, btnvalue1, btnvalue2 }) {
     const cancelButtonRef = useRef(null);
 
     return (
@@ -52,14 +52,29 @@ export default function Model({ open, setOpen, data }) {
                                     </div>
                                 </div>
                                 <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                    <button
-                                        type="button"
-                                        className="mt-3 border-none inline-flex w-full justify-center rounded-md bg-sky-700 px-5 py-2 text-sm font-semibold text-white sm:mt-0 sm:w-auto"
-                                        onClick={() => setOpen(false)}
-                                        ref={cancelButtonRef}
-                                    >
-                                        OK, Got It
-                                    </button>
+                                    {btnvalue1 && btnvalue1.length ? (
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                        >
+                                            {btnvalue1}
+                                        </button>
+                                    ) : (
+                                        ""
+                                    )}
+                                    {btnvalue2 && btnvalue1.length ? (
+                                        <button
+                                            type="button"
+                                            className="mt-3 border-none inline-flex w-full justify-center rounded-md bg-sky-700 px-5 py-2 text-sm font-semibold text-white sm:mt-0 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                            ref={cancelButtonRef}
+                                        >
+                                            {btnvalue2}
+                                        </button>
+                                    ) : (
+                                        ""
+                                    )}
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>

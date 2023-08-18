@@ -22,7 +22,7 @@ const EmailBody = ({ id }) => {
     };
     return (
         <>
-            <Model open={open} setOpen={setOpen} data={maildata}/>
+            <Model open={open} setOpen={setOpen} data={maildata} btnvalue2={"OK, Got It"}/>
             {maildata?.data && maildata?.data?.length ? (
                 maildata?.data.map((data) => {
                     return (
