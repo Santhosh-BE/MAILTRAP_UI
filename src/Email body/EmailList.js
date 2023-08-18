@@ -1,40 +1,17 @@
 import React, { useEffect, useState } from "react";
-import EmailBody from "./EmailBody";
 import "./EmailList.css";
-import EmailListSettings from "./EmailListSettings";
-import { useGetAllEmailQuery, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
 import { queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
-import { values } from "lodash";
 const EmailList = ({ setId }) => {
-    const [snackbarMessage, setSnackbarMessage] = useState();
-
-    const [state, setState] = React.useState({
-        open: false,
-        vertical: "top",
-        horizontal: "center",
-    });
-    const { vertical, horizontal, open } = state;
-    const handleClose = () => {
-        setState({ ...state, open: false });
-    };
+   
     const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { page: "1", pageLimit: "15" } }));
-    const refreshClick = () => {
-        GetAllEmailList.refetch();
-    };
-    console.log(GetAllEmailList?.data?.data);
-    const sentRecord = false;
     useEffect(() => {
         if (GetAllEmailList?.isError) {
-            setSnackbarMessage(GetAllEmailList?.error?.data?.error);
-            setState({ ...state, open: true });
+            console.log(GetAllEmailList?.error?.data?.error);
         }
     }, [GetAllEmailList]);
-
-    useEffect(() => {
-        GetAllEmailList.refetch();
-    }, []);
     return (
         <>
             <div className="text-white col-span-4 border-l-2 border-solid border-zinc-950" style={{ backgroundColor: "rgb(28,28,28)" }}>

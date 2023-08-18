@@ -1,15 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Sidebar.css";
 import { sidebarlabel } from "../Components/Constants/constants";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaInbox, FaTrash} from "react-icons/fa";
-import { IoIosArrowDown } from "react-icons/io";
-const Sidebar = ({ setIsMessageOpen, hamburgerIcon }) => {
-    const [activeButton, setActiveButton] = useState(false);
-    const [sendActive, setSendActive] = useState(false);
-    const composeModalOpen = () => {
-        setIsMessageOpen(true);
-    };
+const Sidebar = () => {
 
     return (
         <div className="  h-screen bg-stone-800 sidebarbg col-span-2" style={{ backgroundColor: "rgb(38,38,38)" }}>

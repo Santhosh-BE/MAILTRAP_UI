@@ -17,13 +17,13 @@ const MailOpen = () => {
       skip: !messageId,
     }
   );
-  const [UpdateStatus, UpdateStatusData] = useUpdateStatusApiMutation();
+  const [UpdateStatus] = useUpdateStatusApiMutation();
   useEffect(() => {
     UpdateStatus({
       id: messageId,
       Read: 1,
     });
-  }, []);
+  }, [messageId]);
   return (
     <div className="emailDetail">
       <EmailListSettings arrow></EmailListSettings>

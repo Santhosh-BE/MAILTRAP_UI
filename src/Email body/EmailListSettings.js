@@ -1,6 +1,5 @@
 import React from 'react';
 import './EmailListSettings.css'
-import { useNavigate } from 'react-router-dom';
 
 const EmailListSettings = ({ arrow ,refreshClick}) => {
 

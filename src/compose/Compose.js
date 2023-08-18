@@ -7,11 +7,7 @@ const Compose = ({ setIsMessageOpen }) => {
   const [sendEmail, setSendEmail] = useState("");
   const [Subject, setSubject] = useState("");
   const [Message, setMessage] = useState("");
-  const [ComposePostApi, ComposePostApiData] = useComposePostApiMutation();
-  console.log(ComposePostApiData, "ComposePostApiData");
-  const closeCompose = () => {
-    setIsMessageOpen(false);
-  };
+  const [ComposePostApi] = useComposePostApiMutation();
 
   const submitInput = (e) => {
     e.preventDefault();

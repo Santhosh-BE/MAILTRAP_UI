@@ -4,18 +4,18 @@ import { BsInfoCircleFill, BsTrashFill } from "react-icons/bs";
 import { useDeleteMailApiMutation, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
 import { IoMdMailUnread } from "react-icons/io";
 
-import { LABEL, label, queryString } from "../Components/Constants/constants";
+import { LABEL, queryString } from "../Components/Constants/constants";
 import Model from "../Components/Constants/model";
 
 const EmailBody = ({ id }) => {
     const [open, setOpen] = useState(false);
-    const [deleteMailApi, DeleteMailApiData] = useDeleteMailApiMutation();
+    const [deleteMailApi] = useDeleteMailApiMutation();
     const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }));
     useEffect(() => {
         if (id) {
             maildata.refetch();
         }
-    }, [id]);
+    }, [id,maildata]);
     const handleDelete = async (data) => {
         await deleteMailApi({ id: data });
         maildata.refetch();
