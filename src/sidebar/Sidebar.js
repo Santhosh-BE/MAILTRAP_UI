@@ -17,12 +17,20 @@ import { useNavigate } from "react-router-dom";
 // import VideocamIcon from '@mui/icons-material/Videocam';
 // import KeyboardIcon from '@mui/icons-material/Keyboard';
 
-const Sidebar = ({setIsMessageOpen , hamburgerIcon}) => {
-  const [SetActiveBut, setSetActiveBut] = useState(false);
+const Sidebar = ({setIsMessageOpen , hamburgerIcon,deleteEmailListData,emailListData}) => {
+  const [activeBut, setActiveBut] = useState("inbox");
   const [SetSend, setSetSend] = useState(false);
   const navigate = useNavigate();
 const composeModalOpen =()=>{
   setIsMessageOpen(true);
+}
+const handleInbox = ()=>{
+  navigate("/inbox")
+  setActiveBut("inbox")
+}
+const handleDelete = ()=>{
+  navigate("/delete")
+  setActiveBut("delete")
 }
   return (
     <div className="sidebar">
@@ -38,9 +46,9 @@ const composeModalOpen =()=>{
         <SidebarOptions
           Icon={InboxIcon}
           title={!hamburgerIcon?"Inbox":""}
-          number="500"
-          isActive={SetActiveBut}
-          onClick={()=>navigate("/inbox")}
+          number={emailListData?.length}
+          isActive={activeBut ==="inbox"? true:false}
+          onClick={handleInbox}
         ></SidebarOptions>
         {/* <SidebarOptions Icon={StarIcon} title='Starred' number='224'></SidebarOptions> */}
         {/* <SidebarOptions Icon={WatchLaterIcon} title='Snoozed' number='254'></SidebarOptions> */}
@@ -57,11 +65,13 @@ const composeModalOpen =()=>{
           number="224"
         ></SidebarOptions> */}
         {/* <SidebarOptions Icon={LabelIcon} title='Category' number='224'></SidebarOptions> */}
-        {/* <SidebarOptions
+        <SidebarOptions
           Icon={DeleteIcon}
           title={!hamburgerIcon?"Trash":""}
-          number="224"
-        ></SidebarOptions> */}
+          number={deleteEmailListData?.length}
+          isActive={activeBut ==="delete"? true:false}
+          onClick={handleDelete}
+        ></SidebarOptions>
         {/* <SidebarOptions Icon={FindInPageIcon} title='Documents' number='224'></SidebarOptions>
             <SidebarOptions Icon={ExpandMoreIcon} title='More' number='224'></SidebarOptions> */}
       </div>

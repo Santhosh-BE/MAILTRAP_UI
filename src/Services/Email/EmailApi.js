@@ -9,6 +9,9 @@ export const EmailApi = apiWithTag.injectEndpoints({
       query: (params) => `mail?${params}`,
 	  providesTags: ["mailTrap"],
     }),
+    getAllDeleteEmail: builder.query({
+      query: () => `trash`,
+    }),
     loginPostApi: builder.mutation({
       query: (payload) => {
         return {
@@ -20,6 +23,10 @@ export const EmailApi = apiWithTag.injectEndpoints({
     }),
     getEmailById: builder.query({
       query: (params) => `getmail?${params}`,
+	  
+    }),
+    getSearchApi: builder.query({
+      query: (params) => `search?${params}`,
 	  
     }),
     composePostApi: builder.mutation({
@@ -62,4 +69,6 @@ export const {
   useComposePostApiMutation,
   useUpdateStatusApiMutation,
   useDeleteMailApiMutation,
+  useGetSearchApiQuery,
+  useGetAllDeleteEmailQuery
 } = EmailApi;

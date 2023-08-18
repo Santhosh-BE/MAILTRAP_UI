@@ -8,18 +8,41 @@ import HelpOutlinedIcon from "@mui/icons-material/HelpOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AppsIcon from "@mui/icons-material/Apps";
 import { useNavigate } from "react-router-dom";
+import { useGetSearchApiQuery } from "../Services/Email/EmailApi";
+import { queryString } from "../Components/Constants/constants";
+import { useEffect } from "react";
+import { has } from "lodash";
 
-const Header = ({setHamburgerIcon,hamburgerIcon}) => {
-    const navigate = useNavigate();
+const Header = ({
+  setHamburgerIcon,
+  hamburgerIcon,
+  setEmailListData,
+  emailListData,
+}) => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [searchValue, setSearchvalue] = React.useState();
   const open = Boolean(anchorEl);
+  const userId = localStorage.getItem("userId");
+  const GetSearchApi = useGetSearchApiQuery(
+    queryString({ params: { userid: userId, title: searchValue } }),
+    
+  );
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  useEffect(() => {
+    if (
+      GetSearchApi?.isSuccess &&
+      has(GetSearchApi, "data") &&
+      GetSearchApi?.data?.res
+    ) {
+      setEmailListData(GetSearchApi?.data?.res);
+    }
+  }, [GetSearchApi]);
   const logOut = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("ACCESS_TOKEN");
@@ -28,12 +51,16 @@ const Header = ({setHamburgerIcon,hamburgerIcon}) => {
     navigate("/");
     window.location.reload();
   };
-
+  const handleSearch = (e) => {
+    setSearchvalue(e.target.value);
+  };
   return (
     <div className="header">
       <div className="header-left">
         <IconButton>
-          <ReorderIcon onClick={()=>setHamburgerIcon(!hamburgerIcon)}></ReorderIcon>
+          <ReorderIcon
+            onClick={() => setHamburgerIcon(!hamburgerIcon)}
+          ></ReorderIcon>
         </IconButton>
       </div>
 
@@ -43,7 +70,12 @@ const Header = ({setHamburgerIcon,hamburgerIcon}) => {
             <SearchIcon></SearchIcon>
           </IconButton>
 
-          <input type="text" placeholder="Search Mail" />
+          <input
+            type="text"
+            placeholder="Search Mail"
+            value={searchValue}
+            onChange={handleSearch}
+          />
 
           <IconButton>
             <ExpandMoreIcon></ExpandMoreIcon>
