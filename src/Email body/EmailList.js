@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./EmailList.css";
 import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
