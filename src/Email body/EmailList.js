@@ -7,7 +7,6 @@ import { FiSearch, FiEdit } from "react-icons/fi";
 import { queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
 import { values } from "lodash";
-
 const EmailList = ({ setId }) => {
     const [snackbarMessage, setSnackbarMessage] = useState();
 

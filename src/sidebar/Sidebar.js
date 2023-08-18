@@ -7,7 +7,6 @@ import { IoIosArrowDown } from "react-icons/io";
 const Sidebar = ({ setIsMessageOpen, hamburgerIcon }) => {
     const [activeButton, setActiveButton] = useState(false);
     const [sendActive, setSendActive] = useState(false);
-
     const composeModalOpen = () => {
         setIsMessageOpen(true);
     };
