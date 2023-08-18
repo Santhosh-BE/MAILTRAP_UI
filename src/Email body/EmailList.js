@@ -73,12 +73,12 @@ const EmailList = ({ setId }) => {
                                         </div>
                                     </div>
                                     <div
-                                        class="item2 col-span-10"
+                                        class="item2 col-span-10 cursor-pointer "
                                         onClick={() => {
                                             setId(value?.id);
                                         }}
                                     >
-                                        <div className="grid grid-cols-12">
+                                        <div className="grid grid-cols-12 ">
                                             <div className="col-span-9">
                                                 <p className="mt-3">{value?.title}</p>
                                                 <p className="text-zinc-400">

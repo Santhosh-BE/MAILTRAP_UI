@@ -6,6 +6,7 @@ import { IoMdMailUnread } from "react-icons/io";
 
 import { LABEL, label, queryString } from "../Components/Constants/constants";
 import Model from "../Components/Constants/model";
+import Swal from "sweetalert2";
 
 const EmailBody = ({ id }) => {
     const [open, setOpen] = useState(false);
@@ -16,13 +17,44 @@ const EmailBody = ({ id }) => {
             maildata.refetch();
         }
     }, [id]);
-    const handleDelete = async (data) => {
-        await deleteMailApi({ id: data });
-        maildata.refetch();
+    const handleinfo = (data) => {
+        Swal.fire({
+            title: "Information",
+            html: `
+                <div style="text-align: left; padding: 10px;">
+                    <p style="margin-bottom: 3px"><strong>From:</strong> ${data?.from}</p>
+                    <p style="margin-bottom: 3px"><strong>To:</strong> ${data?.to}</p>
+                    <p><strong>Subject:</strong> ${data?.subject}</p>
+                </div>
+            `,
+            customClass: {
+                content: "custom-swal-content",
+            },
+        });
+    };
+
+    const handleDelete = (data) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            background: "#2d3748",
+            color: "#cbd5e0",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Deleted!", "Your Mail has been deleted.", "success");
+                await deleteMailApi({ id: data?.id });
+                maildata.refetch();
+            }
+        });
     };
     return (
         <>
-            <Model open={open} setOpen={setOpen} data={maildata} btnvalue2={"OK, Got It"}/>
+            <Model open={open} setOpen={setOpen} data={maildata} btnvalue2={"OK, Got It"} />
             {maildata?.data && maildata?.data?.length ? (
                 maildata?.data.map((data) => {
                     return (
@@ -30,13 +62,13 @@ const EmailBody = ({ id }) => {
                             <div className="p-5 flex space-x-5  ms-3">
                                 <BsTrashFill
                                     onClick={() => {
-                                        handleDelete(data?.id);
+                                        handleDelete(data);
                                     }}
                                     className="text-zinc-500 cursor-pointer"
                                 />
                                 <BsInfoCircleFill
                                     onClick={() => {
-                                        setOpen(true);
+                                        handleinfo(data);
                                     }}
                                     className="text-zinc-500 cursor-pointer"
                                 />
