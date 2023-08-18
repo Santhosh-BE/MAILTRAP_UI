@@ -88,7 +88,7 @@ const EmailList = ({ setId }) => {
                                             <div className="col-span-3 ms-6 text-zinc-500 text-xs flex">
                                                 <label className="mt-5">Aug 17</label>
 
-                                                <BsDot className="mt-3 text-md text-sky-500" size={30} />
+                                                {value.Read === 0 ? <BsDot className="mt-3 text-md text-sky-500" size={30} /> : ""}
                                             </div>
                                         </div>
                                         <p className="text-zinc-600">{value.text.length > 90 ? `${value.text.substring(0, 90)}...` : value.text}</p>

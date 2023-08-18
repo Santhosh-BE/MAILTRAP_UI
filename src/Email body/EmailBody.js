@@ -1,21 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./EmailBody.css";
 import { BsInfoCircleFill, BsTrashFill } from "react-icons/bs";
-import { useDeleteMailApiMutation, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import {MdMarkEmailRead} from "react-icons/md"
+import { useDeleteMailApiMutation, useGetEmailByIdQuery, useUpdateStatusApiMutation } from "../Services/Email/EmailApi";
 import { IoMdMailUnread } from "react-icons/io";
 
 import { LABEL, queryString } from "../Components/Constants/constants";
 import Swal from "sweetalert2";
 
 const EmailBody = ({ id }) => {
-    const [open, setOpen] = useState(false);
     const [deleteMailApi, DeleteMailApiData] = useDeleteMailApiMutation();
-    const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }));
+    const [UpdateStatus, UpdateStatusData] = useUpdateStatusApiMutation();
+    const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }), {
+        skip: !id,
+    });
+    useEffect(() => {
+        if (id) {
+            UpdateStatus({
+                id: id,
+                Read: 1,
+            });
+        }
+    }, [id]);
     useEffect(() => {
         if (id) {
             maildata.refetch();
         }
     }, [id]);
+    const handlestatus = (data,read) => {
+        UpdateStatus({
+            id: data.id,
+            Read: read?read:0,
+        });
+    };
     const handleinfo = (data) => {
         Swal.fire({
             background: "#2d3748",
@@ -74,7 +91,13 @@ const EmailBody = ({ id }) => {
                                     }}
                                     className="text-zinc-500 cursor-pointer"
                                 />
-                                <IoMdMailUnread className="text-zinc-500 cursor-pointer" />
+                                <IoMdMailUnread
+                                    onClick={() => {
+                                        handlestatus(data);
+                                    }}
+                                    className="text-zinc-500 cursor-pointer"
+                                />
+                                <MdMarkEmailRead className="text-zinc-500 cursor-pointer" size={17} onClick={()=>{handlestatus(data,1)}}/>
                             </div>
                             <hr className="mt-1 bg-zinc-600" style={{ borderColor: "transparent" }} />
                             <div className="grid grid-cols-12">
