@@ -4,5 +4,8 @@ export const sidebarlabel=["MailTrap","Inbox","Trash"];
 
 export const LABEL={
     SELECT:"Select an item to read",
-    NOTHING:"Nothing is selected"
+    NOTHING:"Nothing is selected",
+    INBOX:"Inbox",
+    MESSAGE:"Message",
+    UNREAD:"Unread",
 }

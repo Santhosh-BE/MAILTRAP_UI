@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from "react";
-import EmailBody from "./EmailBody";
+import React, { useEffect } from "react";
 import "./EmailList.css";
-import EmailListSettings from "./EmailListSettings";
-import { useGetAllEmailQuery, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
-import { queryString } from "../Components/Constants/constants";
+import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
-import { values } from "lodash";
-const EmailList = ({ setId }) => {
-    const [snackbarMessage, setSnackbarMessage] = useState();
-
+const EmailList = ({ setId, trash }) => {
     const [state, setState] = React.useState({
         open: false,
         vertical: "top",
         horizontal: "center",
     });
-    const { vertical, horizontal, open } = state;
-    const handleClose = () => {
-        setState({ ...state, open: false });
-    };
     const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { page: "1", pageLimit: "15" } }));
+    console.log(GetAllEmailList.data, "GetAllEmailList");
     const refreshClick = () => {
         GetAllEmailList.refetch();
     };
-    console.log(GetAllEmailList?.data?.data);
-    const sentRecord = false;
     useEffect(() => {
         if (GetAllEmailList?.isError) {
-            setSnackbarMessage(GetAllEmailList?.error?.data?.error);
             setState({ ...state, open: true });
         }
     }, [GetAllEmailList]);
@@ -39,8 +28,11 @@ const EmailList = ({ setId }) => {
         <>
             <div className="text-white col-span-4 border-l-2 border-solid border-zinc-950" style={{ backgroundColor: "rgb(28,28,28)" }}>
                 <div className="ms-5 mt-5">
-                    <p className="text-white text-base text-lg text-xl ">Inbox</p>
-                    <label className="text-zinc-400">1,283 Message, 436 Unread</label>
+                    <p className="text-white text-base text-lg text-xl ">{LABEL?.INBOX}</p>
+                    <label className="text-zinc-400">
+                        {GetAllEmailList?.data?.totalcount} {LABEL?.MESSAGE}
+                        {GetAllEmailList?.data?.unreadCount > 0 ? `,${GetAllEmailList?.data?.unreadCount} ${LABEL?.UNREAD}` : ""}
+                    </label>
                 </div>
                 <div>
                     <div className="flex items-center py-5">
