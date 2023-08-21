@@ -2,22 +2,33 @@ import React, { useEffect } from "react";
 import "./EmailList.css";
 import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
-import { queryString } from "../Components/Constants/constants";
+import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
-const EmailList = ({ setId }) => {
-   
+const EmailList = ({ setId, trash }) => {
+    const [state, setState] = React.useState({
+        open: false,
+        vertical: "top",
+        horizontal: "center",
+    });
     const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { page: "1", pageLimit: "15" } }));
+    console.log(GetAllEmailList.data, "GetAllEmailList");
+    const refreshClick = () => {
+        GetAllEmailList.refetch();
+    };
     useEffect(() => {
         if (GetAllEmailList?.isError) {
-            console.log(GetAllEmailList?.error?.data?.error);
+            setState({ ...state, open: true });
         }
     }, [GetAllEmailList]);
     return (
         <>
             <div className="text-white col-span-4 border-l-2 border-solid border-zinc-950" style={{ backgroundColor: "rgb(28,28,28)" }}>
                 <div className="ms-5 mt-5">
-                    <p className="text-white text-base text-lg text-xl ">Inbox</p>
-                    <label className="text-zinc-400">1,283 Message, 436 Unread</label>
+                    <p className="text-white text-base text-lg text-xl ">{LABEL?.INBOX}</p>
+                    <label className="text-zinc-400">
+                        {GetAllEmailList?.data?.totalcount} {LABEL?.MESSAGE}
+                        {GetAllEmailList?.data?.unreadCount > 0 ? `,${GetAllEmailList?.data?.unreadCount} ${LABEL?.UNREAD}` : ""}
+                    </label>
                 </div>
                 <div>
                     <div className="flex items-center py-5">
@@ -50,12 +61,12 @@ const EmailList = ({ setId }) => {
                                         </div>
                                     </div>
                                     <div
-                                        class="item2 col-span-10"
+                                        class="item2 col-span-10 cursor-pointer "
                                         onClick={() => {
                                             setId(value?.id);
                                         }}
                                     >
-                                        <div className="grid grid-cols-12">
+                                        <div className="grid grid-cols-12 ">
                                             <div className="col-span-9">
                                                 <p className="mt-3">{value?.title}</p>
                                                 <p className="text-zinc-400">
@@ -65,7 +76,7 @@ const EmailList = ({ setId }) => {
                                             <div className="col-span-3 ms-6 text-zinc-500 text-xs flex">
                                                 <label className="mt-5">Aug 17</label>
 
-                                                <BsDot className="mt-3 text-md text-sky-500" size={30} />
+                                                {value.Read === 0 ? <BsDot className="mt-3 text-md text-sky-500" size={30} /> : ""}
                                             </div>
                                         </div>
                                         <p className="text-zinc-600">{value.text.length > 90 ? `${value.text.substring(0, 90)}...` : value.text}</p>

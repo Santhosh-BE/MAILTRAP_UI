@@ -1,28 +1,79 @@
 import React, { useEffect, useState } from "react";
 import "./EmailBody.css";
 import { BsInfoCircleFill, BsTrashFill } from "react-icons/bs";
-import { useDeleteMailApiMutation, useGetEmailByIdQuery } from "../Services/Email/EmailApi";
+import {MdMarkEmailRead} from "react-icons/md"
+import { useDeleteMailApiMutation, useGetEmailByIdQuery, useUpdateStatusApiMutation } from "../Services/Email/EmailApi";
 import { IoMdMailUnread } from "react-icons/io";
 
 import { LABEL, queryString } from "../Components/Constants/constants";
-import Model from "../Components/Constants/model";
+import Swal from "sweetalert2";
 
 const EmailBody = ({ id }) => {
-    const [open, setOpen] = useState(false);
-    const [deleteMailApi] = useDeleteMailApiMutation();
-    const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }));
+    const [deleteMailApi, DeleteMailApiData] = useDeleteMailApiMutation();
+    const [UpdateStatus, UpdateStatusData] = useUpdateStatusApiMutation();
+    const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }), {
+        skip: !id,
+    });
+    useEffect(() => {
+        if (id) {
+            UpdateStatus({
+                id: id,
+                Read: 1,
+            });
+        }
+    }, [id]);
     useEffect(() => {
         if (id) {
             maildata.refetch();
         }
-    }, [id,maildata]);
-    const handleDelete = async (data) => {
-        await deleteMailApi({ id: data });
-        maildata.refetch();
+    }, [id]);
+    const handlestatus = (data,read) => {
+        UpdateStatus({
+            id: data.id,
+            Read: read?read:0,
+        });
+    };
+    const handleinfo = (data) => {
+        Swal.fire({
+            background: "#2d3748",
+            color: "#cbd5e0",
+            title: "Information",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Ok",
+            html: `
+                <div style="text-align: left; padding: 10px;">
+                    <p style="margin-bottom: 3px"><strong>From:</strong> ${data?.from}</p>
+                    <p style="margin-bottom: 3px"><strong>To:</strong> ${data?.to}</p>
+                    <p><strong>Subject:</strong> ${data?.subject}</p>
+                </div>
+            `,
+            customClass: {
+                content: "custom-swal-content",
+            },
+        });
+    };
+
+    const handleDelete = (data) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            background: "#2d3748",
+            color: "#cbd5e0",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Deleted!", "Your Mail has been deleted.", "success");
+                await deleteMailApi({ id: data?.id });
+                maildata.refetch();
+            }
+        });
     };
     return (
         <>
-            <Model open={open} setOpen={setOpen} data={maildata}/>
             {maildata?.data && maildata?.data?.length ? (
                 maildata?.data.map((data) => {
                     return (
@@ -30,17 +81,23 @@ const EmailBody = ({ id }) => {
                             <div className="p-5 flex space-x-5  ms-3">
                                 <BsTrashFill
                                     onClick={() => {
-                                        handleDelete(data?.id);
+                                        handleDelete(data);
                                     }}
                                     className="text-zinc-500 cursor-pointer"
                                 />
                                 <BsInfoCircleFill
                                     onClick={() => {
-                                        setOpen(true);
+                                        handleinfo(data);
                                     }}
                                     className="text-zinc-500 cursor-pointer"
                                 />
-                                <IoMdMailUnread className="text-zinc-500 cursor-pointer" />
+                                <IoMdMailUnread
+                                    onClick={() => {
+                                        handlestatus(data);
+                                    }}
+                                    className="text-zinc-500 cursor-pointer"
+                                />
+                                <MdMarkEmailRead className="text-zinc-500 cursor-pointer" size={17} onClick={()=>{handlestatus(data,1)}}/>
                             </div>
                             <hr className="mt-1 bg-zinc-600" style={{ borderColor: "transparent" }} />
                             <div className="grid grid-cols-12">

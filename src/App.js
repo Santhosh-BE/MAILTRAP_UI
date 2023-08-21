@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import "./App.css";
 import EmailList from "./Email body/EmailList";
-import EmailBody from "./Email body/EmailBody";
+import Compose from "./compose/Compose";
+import { Route, Routes } from "react-router-dom";
+import { Homepage } from "./Combinecomponent/index.js";
 const App = () => {
-    const [id,setId]=useState();
     return (
         <>
-            <div className="grid grid-cols-12">
-                <Sidebar />
-                <EmailList setId={setId}/>
-                <EmailBody id={id}/>
-            </div>
+            <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/trash" element={<Homepage trash={true} />} />
+            </Routes>
         </>
     );
-
 };
 
 export default App;

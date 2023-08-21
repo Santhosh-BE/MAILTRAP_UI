@@ -34,7 +34,7 @@ export const EmailApi = apiWithTag.injectEndpoints({
         updateStatusApi: builder.mutation({
             query: (payload) => {
                 return {
-                    url: "updatestatus",
+                    url: "/api/updatestatus",
                     method: "PUT",
                     body: payload,
                 };
