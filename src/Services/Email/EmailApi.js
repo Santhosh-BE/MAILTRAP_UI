@@ -21,6 +21,9 @@ export const EmailApi = apiWithTag.injectEndpoints({
         getEmailById: builder.query({
             query: (params) => `/api/getmail?${params}`,
         }),
+        getTrashMail: builder.query({
+            query: () => "/api/trash"
+        }),
         composePostApi: builder.mutation({
             query: (payload) => {
                 return {
@@ -61,4 +64,5 @@ export const {
     useComposePostApiMutation,
     useUpdateStatusApiMutation,
     useDeleteMailApiMutation,
+    useGetTrashMailQuery,
 } = EmailApi;

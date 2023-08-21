@@ -3,6 +3,7 @@ import "./Sidebar.css";
 import { sidebarlabel } from "../Components/Constants/constants";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaInbox, FaTrash} from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 const Sidebar = () => {
 
     return (
@@ -22,7 +23,7 @@ const Sidebar = () => {
                         <FaTrash className="me-2" />
                     )}
                     <div className="flex">
-                        <p>{label}</p>
+                    <NavLink to={label === "MailTrap" ? "/" : `/${label}`} activeClassName="active">{label}</NavLink>
                     </div>
                 </div>
             ))}

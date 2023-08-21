@@ -8,4 +8,5 @@ export const LABEL={
     INBOX:"Inbox",
     MESSAGE:"Message",
     UNREAD:"Unread",
+    TRASH : "Trash",
 }
