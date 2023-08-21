@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import "./EmailList.css";
-import { useGetAllEmailQuery } from "../Services/Email/EmailApi";
+import { useGetAllEmailQuery, useGetTrashmailQuery } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
 import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
 const EmailList = ({ setId, trash }) => {
+    console.log(trash, "trash");
     const [state, setState] = React.useState({
         open: false,
         vertical: "top",
         horizontal: "center",
-    });
+    }); 
+    const GetTrashmail=useGetTrashmailQuery()
+    console.log(GetTrashmail,"GetTrashmail")
     const GetAllEmailList = useGetAllEmailQuery(queryString({ params: { page: "1", pageLimit: "15" } }));
     console.log(GetAllEmailList.data, "GetAllEmailList");
     const refreshClick = () => {
