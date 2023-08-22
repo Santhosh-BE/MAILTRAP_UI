@@ -19,7 +19,7 @@ const EmailList = ({ setId, trash }) => {
   const GetAllEmailList = useGetAllEmailQuery(
     queryString({ params: { page: "1", pageLimit: "15" } })
   );
-  const GetAllTrashEmailList = useGetTrashMailQuery({
+  const GetAllTrashEmailList = useGetTrashMailQuery(queryString({ params: { page: "1", pageLimit: "15" } }),{
     skip: !trash.trash,
   });
   const refreshClick = () => {
@@ -52,7 +52,7 @@ const EmailList = ({ setId, trash }) => {
   }, [GetAllEmailList]);
   useEffect(() => {
     if (trash.trash) {
-      setEmailListData(GetAllTrashEmailList);
+      setEmailListData(GetAllTrashEmailList?.data);
     } else {
       setEmailListData(GetAllEmailList?.data);
     }
@@ -95,14 +95,14 @@ const EmailList = ({ setId, trash }) => {
             </div>
           </div>
           <hr style={{ borderColor: "gray" }} />
-          <div class="scrollable-grid-container">
-            <div class="grid-container grid grid-cols-12 mt-2 ">
-              {EmailListData?.data.map((value) => (
+          <div className="scrollable-grid-container">
+            <div className="grid-container grid grid-cols-12 mt-2 ">
+              {EmailListData?.data?.map((value) => (
                 <>
-                  <div class="item2 col-span-2 p-5">
-                    <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                  <div className="item2 col-span-2 p-5">
+                    <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                       <svg
-                        class="absolute w-12 h-12 text-gray-400 -left-1"
+                        className="absolute w-12 h-12 text-gray-400 -left-1"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ const EmailList = ({ setId, trash }) => {
                     </div>
                   </div>
                   <div
-                    class="item2 col-span-10 cursor-pointer "
+                    className="item2 col-span-10 cursor-pointer "
                     onClick={() => {
                       setId(value?.id);
                     }}

@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import Sidebar from "./sidebar/Sidebar";
+import React from "react";
 import "./App.css";
-import EmailList from "./Email body/EmailList";
-import Compose from "./compose/Compose";
 import { Route, Routes } from "react-router-dom";
 import { Homepage } from "./Combinecomponent/index.js";
 const App = () => {

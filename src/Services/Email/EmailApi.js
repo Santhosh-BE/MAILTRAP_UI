@@ -22,7 +22,7 @@ export const EmailApi = apiWithTag.injectEndpoints({
             query: (params) => `/api/getmail?${params}`,
         }),
         getTrashMail: builder.query({
-            query: () => "/api/trash"
+            query: (params) => `/api/trash?${params}`
         }),
         composePostApi: builder.mutation({
             query: (payload) => {
