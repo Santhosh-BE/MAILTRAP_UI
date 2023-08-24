@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./EmailList.css";
 import {
   useGetAllEmailQuery,
+  useGetSearchMailQuery,
   useGetTrashMailQuery,
 } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
@@ -9,22 +10,14 @@ import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-const EmailList = ({ setId, trash }) => {
+const EmailList = ({ setId, trash ,EmailListData,searchText,setSearchText , pageNumber ,setPageNumber}) => {
+  
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
     horizontal: "center",
   });
-  const [EmailListData, setEmailListData] = React.useState();
-  const GetAllEmailList = useGetAllEmailQuery(
-    queryString({ params: { page: "1", pageLimit: "15" } })
-  );
-  const GetAllTrashEmailList = useGetTrashMailQuery(queryString({ params: { page: "1", pageLimit: "15" } }),{
-    skip: !trash.trash,
-  });
-  const refreshClick = () => {
-    GetAllEmailList.refetch();
-  };
+  
   const handleAllDelete = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -45,18 +38,25 @@ const EmailList = ({ setId, trash }) => {
       }
     });
   };
-  useEffect(() => {
-    if (GetAllEmailList?.isError) {
-      setState({ ...state, open: true });
-    }
-  }, [GetAllEmailList]);
-  useEffect(() => {
-    if (trash.trash) {
-      setEmailListData(GetAllTrashEmailList?.data);
-    } else {
-      setEmailListData(GetAllEmailList?.data);
-    }
-  }, [trash]);
+  console.log(EmailListData?.totalcount);
+  const count = Math.ceil(EmailListData?.totalcount/10)
+  const handleIncrement = ()=>{
+    console.log(count);
+    if(pageNumber < count)
+    setPageNumber(pageNumber+1)
+  }
+  const handleDecrement = ()=>{
+    console.log(count);
+    if(pageNumber < count)
+    setPageNumber(pageNumber+1)
+  }
+  // useEffect(() => {
+  //   if (GetAllEmailList?.isError) {
+  //     setState({ ...state, open: true });
+  //   }
+  // }, [GetAllEmailList]);
+  
+  console.log(EmailListData, "data");
   return (
     <>
       <div
@@ -68,10 +68,7 @@ const EmailList = ({ setId, trash }) => {
             {trash.trash ? LABEL?.TRASH : LABEL?.INBOX}
           </p>
           <label className="text-zinc-400">
-            {trash.trash
-              ? EmailListData?.data?.length
-              : EmailListData?.totalcount}{" "}
-            {LABEL?.MESSAGE}
+            {EmailListData?.totalcount} {LABEL?.MESSAGE}
             {EmailListData?.unreadCount > 0
               ? `,${EmailListData?.unreadCount} ${LABEL?.UNREAD}`
               : ""}
@@ -85,6 +82,8 @@ const EmailList = ({ setId, trash }) => {
               placeholder="Search"
               type="text"
               name="search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
             <div className="gbinput p-3 ms-2 rounded-md ">
               {trash.trash ? (
@@ -94,6 +93,48 @@ const EmailList = ({ setId, trash }) => {
               )}
             </div>
           </div>
+          <div className="flex justify-between">
+            <div className="relative inline-block">
+              <select className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none">
+                <option value="option1">10</option>
+                <option value="option2">20</option>
+                <option value="option3">30</option>
+              </select>
+            </div>
+            <div className="flex items-center ml-4">
+              <svg
+                className="w-6 h-6 text-white-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                ></path>
+              </svg>
+              {pageNumber}
+              <svg
+                className="w-6 h-6 text-white-600 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                onClick={()=>handleIncrement()}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                ></path>
+              </svg>
+            </div>
+          </div>
+
           <hr style={{ borderColor: "gray" }} />
           <div className="scrollable-grid-container">
             <div className="grid-container grid grid-cols-12 mt-2 ">

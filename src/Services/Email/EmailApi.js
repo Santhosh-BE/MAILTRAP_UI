@@ -21,8 +21,14 @@ export const EmailApi = apiWithTag.injectEndpoints({
         getEmailById: builder.query({
             query: (params) => `/api/getmail?${params}`,
         }),
+        getTrashEmailById: builder.query({
+            query: (params) => `/api/trashid?${params}`,
+        }),
         getTrashMail: builder.query({
             query: (params) => `/api/trash?${params}`
+        }),
+        getSearchMail: builder.query({
+            query: (params) => `/api/search?${params}`
         }),
         composePostApi: builder.mutation({
             query: (payload) => {
@@ -65,4 +71,7 @@ export const {
     useUpdateStatusApiMutation,
     useDeleteMailApiMutation,
     useGetTrashMailQuery,
+    useGetTrashEmailByIdQuery,
+    useGetSearchMailQuery,
+    
 } = EmailApi;

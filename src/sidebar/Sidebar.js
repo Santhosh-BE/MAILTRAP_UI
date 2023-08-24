@@ -4,7 +4,7 @@ import { sidebarlabel } from "../Components/Constants/constants";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaInbox, FaTrash} from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-const Sidebar = () => {
+const Sidebar = ({setSideBarChange}) => {
 
     return (
         <div className="  h-screen bg-stone-800 sidebarbg col-span-2" style={{ backgroundColor: "rgb(38,38,38)" }}>
@@ -23,7 +23,7 @@ const Sidebar = () => {
                         <FaTrash className="me-2" />
                     )}
                     <div className="flex">
-                    <NavLink to={label === "MailTrap" ? "/" : `/${label}`} activeClassName="active">{label}</NavLink>
+                    <NavLink to={label === "MailTrap" ? "/" : `/${label}`} activeClassName="active" onClick={()=>setSideBarChange(label)}>{label}</NavLink>
                     </div>
                 </div>
             ))}
