@@ -13,7 +13,7 @@ import { IoMdMailUnread } from "react-icons/io";
 import { LABEL, queryString } from "../Components/Constants/constants";
 import Swal from "sweetalert2";
 
-const EmailBody = ({id, mailBodyData }) => {
+const EmailBody = ({id, mailBodyData ,getAllMail,setmailBodyData }) => {
     const [deleteMailApi] = useDeleteMailApiMutation();
     const [UpdateStatus] = useUpdateStatusApiMutation();
  
@@ -57,7 +57,8 @@ const EmailBody = ({id, mailBodyData }) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your Mail has been deleted.", "success");
         await deleteMailApi({ id: data?.id });
-        // maildata.refetch();
+        setmailBodyData([])
+        getAllMail.refetch();
       }
     });
   };

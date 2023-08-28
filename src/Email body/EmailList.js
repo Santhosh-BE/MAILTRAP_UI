@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./EmailList.css";
 import {
+  useDeleteAllMailApiMutation,
   useGetAllEmailQuery,
   useGetSearchMailQuery,
   useGetTrashMailQuery,
@@ -10,17 +11,26 @@ import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-const EmailList = ({ setId, trash ,EmailListData,searchText,setSearchText , pageNumber ,setPageNumber}) => {
-  
+import { isArray } from "lodash";
+const EmailList = ({
+  setId,
+  trash,
+  deleteAll,
+  EmailListData,
+  searchText,
+  setSearchText,
+  pageNumber,
+  setPageNumber,
+}) => {
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
     horizontal: "center",
   });
-  
+
   const handleAllDelete = () => {
     Swal.fire({
-      title: "Are you sure?",
+      title: "Are you sure to delete all?",
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
@@ -32,31 +42,26 @@ const EmailList = ({ setId, trash ,EmailListData,searchText,setSearchText , page
     }).then(async (result) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your Mail has been deleted.", "success");
-        console.log("confirmed");
-        // await deleteMailApi({ id: data?.id });
+        await deleteAll();
         // maildata.refetch();
       }
     });
   };
-  console.log(EmailListData?.totalcount);
-  const count = Math.ceil(EmailListData?.totalcount/10)
-  const handleIncrement = ()=>{
-    console.log(count);
-    if(pageNumber < count)
-    setPageNumber(pageNumber+1)
-  }
-  const handleDecrement = ()=>{
-    console.log(count);
-    if(pageNumber < count)
-    setPageNumber(pageNumber+1)
-  }
+  const count = Math.ceil(EmailListData?.totalcount / 10);
+  const handleIncrement = () => {
+    if (pageNumber < count) setPageNumber(pageNumber + 1);
+  };
+  const handleDecrement = () => {
+    if (pageNumber <= count && pageNumber != 1) {
+      setPageNumber(pageNumber - 1);
+    }
+  };
   // useEffect(() => {
   //   if (GetAllEmailList?.isError) {
   //     setState({ ...state, open: true });
   //   }
   // }, [GetAllEmailList]);
-  
-  console.log(EmailListData, "data");
+
   return (
     <>
       <div
@@ -93,109 +98,136 @@ const EmailList = ({ setId, trash ,EmailListData,searchText,setSearchText , page
               )}
             </div>
           </div>
-          <div className="flex justify-between">
-            <div className="relative inline-block">
-              <select className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg focus:outline-none">
-                <option value="option1">10</option>
-                <option value="option2">20</option>
-                <option value="option3">30</option>
-              </select>
+          {EmailListData?.totalcount <= 1 || searchText?.length>0 ? (
+            ""
+          ) : (
+            <div className="flex justify-between">
+              <div className="relative inline-block">
+                <select className="px-3 py-2 text-white-700 bg-gray-800 rounded-lg focus:outline-none">
+                  <option value="option1">10</option>
+                  <option value="option2">20</option>
+                  <option value="option3">30</option>
+                </select>
+              </div>
+
+              <div className="flex items-center ml-4">
+                {pageNumber != 1 && (
+                  <svg
+                    className="w-6 h-6 text-white-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => handleDecrement()}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    ></path>
+                  </svg>
+                )}
+                <div className="gbinput p-3 ms-2 rounded-md ">{pageNumber}</div>
+                {pageNumber != count && (
+                  <svg
+                    className="w-6 h-6 text-white-600 ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    onClick={() => handleIncrement()}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
+                  </svg>
+                )}
+              </div>
             </div>
-            <div className="flex items-center ml-4">
-              <svg
-                className="w-6 h-6 text-white-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                ></path>
-              </svg>
-              {pageNumber}
-              <svg
-                className="w-6 h-6 text-white-600 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                onClick={()=>handleIncrement()}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                ></path>
-              </svg>
-            </div>
-          </div>
+          )}
 
           <hr style={{ borderColor: "gray" }} />
           <div className="scrollable-grid-container">
             <div className="grid-container grid grid-cols-12 mt-2 ">
-              {EmailListData?.data?.map((value) => (
-                <>
-                  <div className="item2 col-span-2 p-5">
-                    <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                      <svg
-                        className="absolute w-12 h-12 text-gray-400 -left-1"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clip-rule="evenodd"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                  <div
-                    className="item2 col-span-10 cursor-pointer "
-                    onClick={() => {
-                      setId(value?.id);
-                    }}
-                  >
-                    <div className="grid grid-cols-12 ">
-                      <div className="col-span-9">
-                        <p className="mt-3">{value?.title}</p>
-                        <p className="text-zinc-400">
-                          {value?.subject.length > 37
-                            ? `${value?.subject.substring(0, 37)}`
-                            : value?.subject}
-                        </p>
+              {EmailListData &&
+              isArray(EmailListData?.data) &&
+              EmailListData?.data?.length > 0 ? (
+                EmailListData?.data?.map((value) => (
+                  <>
+                    <div className="item2 col-span-2 p-5">
+                      <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                        <svg
+                          className="absolute w-12 h-12 text-gray-400 -left-1"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
                       </div>
-                      <div className="col-span-3 ms-6 text-zinc-500 text-xs flex">
-                        <label className="mt-5">Aug 17</label>
+                    </div>
+                    <div
+                      className="item2 col-span-10 cursor-pointer "
+                      onClick={() => {
+                        setId(value?.id);
+                      }}
+                    >
+                      <div className="grid grid-cols-12 ">
+                        <div className="col-span-9">
+                          <p className="mt-3">{value?.title}</p>
+                          <p className="text-zinc-400">
+                            {value?.subject.length > 37
+                              ? `${value?.subject.substring(0, 37)}`
+                              : value?.subject}
+                          </p>
+                        </div>
+                        <div className="col-span-3 ms-6 text-zinc-500 text-xs flex">
+                          <label className="mt-5">Aug 17</label>
 
-                        {value.Read === 0 ? (
-                          <BsDot
-                            className="mt-3 text-md text-sky-500"
-                            size={30}
-                          />
-                        ) : (
-                          ""
-                        )}
+                          {value.Read === 0 ? (
+                            <BsDot
+                              className="mt-3 text-md text-sky-500"
+                              size={30}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       </div>
+                      <p className="text-zinc-600">
+                        {value.text.length > 90
+                          ? `${value.text.substring(0, 90)}...`
+                          : value.text}
+                      </p>
+                      <hr
+                        className="mt-1 bg-zinc-600"
+                        style={{ borderColor: "transparent" }}
+                      />
                     </div>
-                    <p className="text-zinc-600">
-                      {value.text.length > 90
-                        ? `${value.text.substring(0, 90)}...`
-                        : value.text}
-                    </p>
-                    <hr
-                      className="mt-1 bg-zinc-600"
-                      style={{ borderColor: "transparent" }}
-                    />
-                  </div>
-                </>
-              ))}
+                  </>
+                ))
+              ) : (
+                <div
+                  className="text-white col-span-12 border-l-2 border-solid border-zinc-950 flex flex-col items-center justify-center h-3/2"
+                  style={{ backgroundColor: "rgb(28,28,28)" }}
+                >
+                  <img
+                    style={{ width: "120px", height: "120px" }}
+                    src="https://res-h3.public.cdn.office.net/owamail/20230804005.15/scripts/../resources/images/illustration_mail-hash-e2914995.m.svg"
+                    alt=""
+                  />
+                  <p className="mt-2">No Data Found</p>
+                  {/* <p className="text-neutral-500">{LABEL?.NOTHING}</p> */}
+                </div>
+              )}
             </div>
           </div>
         </div>

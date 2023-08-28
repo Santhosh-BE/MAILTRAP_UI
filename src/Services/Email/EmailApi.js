@@ -60,6 +60,14 @@ export const EmailApi = apiWithTag.injectEndpoints({
             },
             invalidatesTags: ["mailTrap"],
         }),
+        deleteAllMailApi: builder.mutation({
+            query: () => {
+                return {
+                    url: "/api/deleteall",
+                    method: "DELETE",
+                };
+            },
+        }),
     }),
 });
 
@@ -73,5 +81,6 @@ export const {
     useGetTrashMailQuery,
     useGetTrashEmailByIdQuery,
     useGetSearchMailQuery,
+    useDeleteAllMailApiMutation
     
 } = EmailApi;

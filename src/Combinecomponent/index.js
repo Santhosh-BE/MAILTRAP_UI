@@ -3,6 +3,7 @@ import EmailBody from "../Email body/EmailBody";
 import EmailList from "../Email body/EmailList";
 import Sidebar from "../sidebar/Sidebar";
 import {
+  useDeleteAllMailApiMutation,
   useGetAllEmailQuery,
   useGetEmailByIdQuery,
   useGetSearchMailQuery,
@@ -19,7 +20,7 @@ export const Homepage = (trash) => {
   const [trashPageNumber, setTrashPageNumber] = useState(1);
   const [trashPageSize, setTrashPageSize] = useState(10);
   const [searchText, setSearchText] = useState();
-  const [EmailListData, setEmailListData] = React.useState();
+  const [EmailListData, setEmailListData] = React.useState([]);
   const [mailBodyData, setmailBodyData] = useState();
   const GetAllEmailList = useGetAllEmailQuery(
     queryString({ params: { page: emailPageNumber, pageLimit: emailPageSize } })
@@ -34,9 +35,7 @@ export const Homepage = (trash) => {
   );
   const GetSearchData = useGetSearchMailQuery(
     queryString({ params: { title: searchText } }),
-    {
-      skip: !searchText,
-    }
+    
   );
   const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }), {
     skip: !id && trash.trash,
@@ -47,30 +46,38 @@ export const Homepage = (trash) => {
       skip: id === undefined || !trash.trash,
     }
   );
+  const [DeleteAllApi ,DeleteAllApiData] =useDeleteAllMailApiMutation();
+
+  useEffect(() => {
+    if (searchText?.length === 0) {
+      GetAllTrashEmailList.refetch();
+    }
+  }, [searchText]);
   useEffect(() => {
     if (trash.trash) {
       setEmailListData(GetAllTrashEmailList?.data);
     } else {
       setEmailListData(GetAllEmailList?.data);
     }
-  }, [trash]);
+  }, [trash, GetAllTrashEmailList, GetAllEmailList]);
   useEffect(() => {
     setEmailListData(GetSearchData?.data);
   }, [GetSearchData]);
-
+  useEffect(() => {
+    GetAllTrashEmailList.refetch();
+  }, [trashPageNumber,DeleteAllApiData]);
   useEffect(() => {
     if (id && !trash.trash) {
       setmailBodyData(maildata?.data);
     } else if (trash.trash) {
-      console.log(id, "-----", trash.trash, ".........");
-      console.log(TrashMailId?.data, "TrashMailId?.data");
       setmailBodyData(TrashMailId?.data);
     }
   }, [maildata]);
   useEffect(() => {
     setmailBodyData([]);
+    GetAllTrashEmailList.refetch();
+    GetAllEmailList.refetch();
   }, [sideBarChange]);
-  console.log(trash, "kldksdsfjsdfhsdfjhsdkjfhsdkfh");
   return (
     <div className="grid grid-cols-12">
       <Sidebar setSideBarChange={setSideBarChange} />
@@ -80,10 +87,13 @@ export const Homepage = (trash) => {
         EmailListData={EmailListData}
         searchText={searchText}
         setSearchText={setSearchText}
-        pageNumber={emailPageNumber}
-        setPageNumber={setEmailPageNumber}
+        pageNumber={trash.trash ? trashPageNumber : emailPageNumber}
+        setPageNumber={trash.trash ? setTrashPageNumber : setEmailPageNumber}
+        deleteAll = {DeleteAllApi}
+        getAllMail ={maildata}
+        
       />
-      <EmailBody id={id} mailBodyData={mailBodyData} />
+      <EmailBody id={id} mailBodyData={mailBodyData} setmailBodyData={setmailBodyData}/>
     </div>
   );
 };
