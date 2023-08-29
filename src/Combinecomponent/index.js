@@ -34,19 +34,18 @@ export const Homepage = (trash) => {
     }
   );
   const GetSearchData = useGetSearchMailQuery(
-    queryString({ params: { title: searchText } }),
-    
+    queryString({ params: { title: searchText } })
   );
   const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }), {
-    skip: !id && trash.trash,
+    skip: !id && id === null && trash.trash,
   });
   const TrashMailId = useGetTrashEmailByIdQuery(
     queryString({ params: { id: id } }),
     {
-      skip: id === undefined || !trash.trash,
+      skip: id === undefined && id === null && !trash.trash,
     }
   );
-  const [DeleteAllApi ,DeleteAllApiData] =useDeleteAllMailApiMutation();
+  const [DeleteAllApi, DeleteAllApiData] = useDeleteAllMailApiMutation();
 
   useEffect(() => {
     if (searchText?.length === 0) {
@@ -65,19 +64,28 @@ export const Homepage = (trash) => {
   }, [GetSearchData]);
   useEffect(() => {
     GetAllTrashEmailList.refetch();
-  }, [trashPageNumber,DeleteAllApiData]);
+  }, [trashPageNumber, DeleteAllApiData]);
   useEffect(() => {
     if (id && !trash.trash) {
       setmailBodyData(maildata?.data);
-    } else if (trash.trash) {
+    } else if (id && trash.trash) {
       setmailBodyData(TrashMailId?.data);
     }
-  }, [maildata]);
+  }, [maildata, TrashMailId, id]);
   useEffect(() => {
     setmailBodyData([]);
+    setId(null);
     GetAllTrashEmailList.refetch();
     GetAllEmailList.refetch();
   }, [sideBarChange]);
+  useEffect(() => {
+    if (
+      DeleteAllApiData?.isSuccess &&
+      DeleteAllApiData?.data?.data === "No data found"
+    ) {
+      setmailBodyData([]);
+    }
+  }, [DeleteAllApiData]);
   return (
     <div className="grid grid-cols-12">
       <Sidebar setSideBarChange={setSideBarChange} />
@@ -89,11 +97,14 @@ export const Homepage = (trash) => {
         setSearchText={setSearchText}
         pageNumber={trash.trash ? trashPageNumber : emailPageNumber}
         setPageNumber={trash.trash ? setTrashPageNumber : setEmailPageNumber}
-        deleteAll = {DeleteAllApi}
-        getAllMail ={maildata}
-        
+        deleteAll={DeleteAllApi}
+        getAllMail={maildata}
       />
-      <EmailBody id={id} mailBodyData={mailBodyData} setmailBodyData={setmailBodyData}/>
+      <EmailBody
+        id={id}
+        mailBodyData={DeleteAllApiData?.isSuccess ? [] : mailBodyData}
+        setmailBodyData={setmailBodyData}
+      />
     </div>
   );
 };
