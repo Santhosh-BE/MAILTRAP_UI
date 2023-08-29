@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render ,screen, fireEvent} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom"; // Import MemoryRouter
 import Sidebar from "./Sidebar";
 import "@testing-library/jest-dom/extend-expect";
@@ -21,4 +21,19 @@ test("renders MailTrap navigation link", () => {
   expect(mailTrapLink).toBeInTheDocument();
   expect(trashLink).toBeInTheDocument();
   expect(inboxLink).toBeInTheDocument();
+});
+test('navigates to Inbox when Inbox link is clicked', () => {
+  const mockSetSideBarChange = jest.fn();
+
+  render(
+    <MemoryRouter>
+      <Sidebar setSideBarChange={mockSetSideBarChange} />
+    </MemoryRouter>
+  );
+
+  const inboxLink = screen.getByText('Inbox');
+  fireEvent.click(inboxLink);
+
+  expect(mockSetSideBarChange).toHaveBeenCalledWith('Inbox');
+  // Add assertions to test the navigation behavior
 });
