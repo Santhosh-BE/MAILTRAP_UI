@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Sidebar = ({setSideBarChange}) => {
 const navigate = useNavigate();
     return (
-        <div className="  h-screen bg-stone-800 sidebarbg col-span-2" style={{ backgroundColor: "rgb(38,38,38)" }}>
+        <div className=" bg-stone-800 sidebarbg col-span-2" style={{ backgroundColor: "rgb(38,38,38)" }}>
             {sidebarlabel.map((label) => (
                 <div
                     className={`ms-5 mt-5 me-5 text-white ${
