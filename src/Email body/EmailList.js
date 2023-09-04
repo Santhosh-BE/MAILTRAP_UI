@@ -22,6 +22,7 @@ const EmailList = ({
   pageNumber,
   setPageNumber,
 }) => {
+  console.log(trash,"listtrash");
   const [state, setState] = React.useState({
     open: false,
     vertical: "top",
@@ -61,7 +62,7 @@ const EmailList = ({
   //     setState({ ...state, open: true });
   //   }
   // }, [GetAllEmailList]);
-
+console.log(EmailListData,"EmailListData");
   return (
     <>
       <div
@@ -70,9 +71,9 @@ const EmailList = ({
       >
         <div className="ms-5 mt-5">
           <p className="text-white text-base text-lg text-xl ">
-            {trash.trash ? LABEL?.TRASH : LABEL?.INBOX}
+            {trash ? LABEL?.TRASH : LABEL?.INBOX}
           </p>
-          <label className="text-zinc-400">
+          <label className="text-zinc-400" data-testid="total-count">
             {EmailListData?.totalcount} {LABEL?.MESSAGE}
             {EmailListData?.unreadCount > 0
               ? `,${EmailListData?.unreadCount} ${LABEL?.UNREAD}`
@@ -91,7 +92,7 @@ const EmailList = ({
               onChange={(e) => setSearchText(e.target.value)}
             />
             <div className="gbinput p-3 ms-2 rounded-md ">
-              {trash.trash ? (
+              {trash ? (
                 <FaTrash className="me-2" onClick={() => handleAllDelete()} />
               ) : (
                 <FiEdit />

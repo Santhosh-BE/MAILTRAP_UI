@@ -12,7 +12,8 @@ import {
 } from "../Services/Email/EmailApi";
 import { queryString } from "../Components/Constants/constants";
 
-export const Homepage = (trash) => {
+export const Homepage = ({trash}) => {
+  console.log(trash,"trash");
   const [id, setId] = useState();
   const [sideBarChange, setSideBarChange] = useState(null);
   const [emailPageNumber, setEmailPageNumber] = useState(1);
@@ -30,19 +31,19 @@ export const Homepage = (trash) => {
       params: { page: trashPageNumber, pageLimit: trashPageSize },
     }),
     {
-      skip: !trash.trash,
+      skip: !trash,
     }
   );
   const GetSearchData = useGetSearchMailQuery(
     queryString({ params: { title: searchText } })
   );
   const maildata = useGetEmailByIdQuery(queryString({ params: { id: id } }), {
-    skip: !id && id === null && trash.trash,
+    skip: !id && id === null && trash,
   });
   const TrashMailId = useGetTrashEmailByIdQuery(
     queryString({ params: { id: id } }),
     {
-      skip: id === undefined && id === null && !trash.trash,
+      skip: id === undefined && id === null && !trash,
     }
   );
   const [DeleteAllApi, DeleteAllApiData] = useDeleteAllMailApiMutation();
@@ -53,7 +54,7 @@ export const Homepage = (trash) => {
     }
   }, [searchText]);
   useEffect(() => {
-    if (trash.trash) {
+    if (trash) {
       setEmailListData(GetAllTrashEmailList?.data);
     } else {
       setEmailListData(GetAllEmailList?.data);
@@ -66,9 +67,9 @@ export const Homepage = (trash) => {
     GetAllTrashEmailList.refetch();
   }, [trashPageNumber, DeleteAllApiData]);
   useEffect(() => {
-    if (id && !trash.trash) {
+    if (id && !trash) {
       setmailBodyData(maildata?.data);
-    } else if (id && trash.trash) {
+    } else if (id && trash) {
       setmailBodyData(TrashMailId?.data);
     }
   }, [maildata, TrashMailId, id]);
@@ -95,8 +96,8 @@ export const Homepage = (trash) => {
         EmailListData={EmailListData}
         searchText={searchText}
         setSearchText={setSearchText}
-        pageNumber={trash.trash ? trashPageNumber : emailPageNumber}
-        setPageNumber={trash.trash ? setTrashPageNumber : setEmailPageNumber}
+        pageNumber={trash ? trashPageNumber : emailPageNumber}
+        setPageNumber={trash ? setTrashPageNumber : setEmailPageNumber}
         deleteAll={DeleteAllApi}
         getAllMail={maildata}
       />
