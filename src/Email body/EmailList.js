@@ -226,7 +226,6 @@ console.log(EmailListData,"EmailListData");
                     alt=""
                   />
                   <p className="mt-2">No Data Found</p>
-                  {/* <p className="text-neutral-500">{LABEL?.NOTHING}</p> */}
                 </div>
               )}
             </div>
