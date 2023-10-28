@@ -1,0 +1,111 @@
+.compose{
+    position: absolute;
+    bottom: 0;
+    right: 70px;
+    min-width: 500px;
+    border-radius: 10px 10px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 8px rgb(51 51 51/59% );
+    background-color: #fff;
+}
+
+.compose-header{
+    display: flex;
+    justify-content: space-between;
+    background-color: #333;
+    color: #fff;
+    align-items: center;
+    padding: 7px 15px;
+}
+
+.compose-headerLeft span{
+    font-size: 14px;
+}
+
+.compose-headerRight, .compose-headerLeft{
+    display: flex;
+    align-items: center;
+}
+
+.compose-headerRight svg{
+    font-size: 18px;
+    margin-left: 10px;
+    transition: 0.2 linear 0s;
+    padding: 3px;
+}
+
+.compose-headerRight svg:nth-child(2) path{
+    transform: rotate(45deg);
+    transform-origin: center;
+}
+
+.compose-headerRight svg:hover{
+    background-color: #545454;
+    cursor: pointer;
+}
+
+.compose-body{
+    display: flex;
+}
+
+.compose-bodyForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.compose-bodyForm input, .compose-bodyForm textarea{
+    border: none;
+    outline: none;
+    box-shadow: inset 0 -1px 0 0 rgb(100 121 143/12%);
+    height: 40px;
+    padding: 0 10px;
+}
+
+.compose-bodyForm textarea{
+    height: auto;
+    padding-top: 10px;
+}
+
+.compose-footer{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 10px;
+    align-items: center;
+}
+
+.compose-footerLeft button{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: #297be6;
+    color: #fff;
+    font-size: 15px;
+    padding: 5px;
+    padding-left: 15px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.compose-footerLeft button svg{
+    border-left: 1px solid #00000052;
+    margin-left: 15px;
+    padding: 6px 2px;
+}
+
+.compose-footerRight svg{
+    font-size: 25px;
+    margin-left: 10px;
+    border-radius: 3px;
+    color: gray;
+    padding: 3px;
+    transition: 0.2 linear 0s;
+}
+
+.compose-footerRight svg:hover{
+    background-color: #eee;
+    color: #000;
+    cursor: pointer;
+}

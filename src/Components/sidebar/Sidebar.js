@@ -1,9 +1,9 @@
 import React from "react";
 import "./Sidebar.css";
-import { sidebarlabel } from "../Components/Constants/constants";
 import { HiOutlineMail } from "react-icons/hi";
 import { FaInbox, FaTrash} from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
+import { sidebarlabel } from "../../Constants/constants";
 const Sidebar = ({setSideBarChange}) => {
 const navigate = useNavigate();
     return (

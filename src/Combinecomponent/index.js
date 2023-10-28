@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import EmailBody from "../Email body/EmailBody";
 import EmailList from "../Email body/EmailList";
-import Sidebar from "../sidebar/Sidebar";
 import {
   useDeleteAllMailApiMutation,
   useGetAllEmailQuery,
@@ -10,7 +9,8 @@ import {
   useGetTrashEmailByIdQuery,
   useGetTrashMailQuery,
 } from "../Services/Email/EmailApi";
-import { queryString } from "../Components/Constants/constants";
+import Sidebar from "../Components/sidebar/Sidebar"
+import { queryString } from "../Constants/constants";
 
 export const Homepage = ({trash}) => {
   console.log(trash,"trash");

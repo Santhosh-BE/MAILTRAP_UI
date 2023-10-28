@@ -7,11 +7,11 @@ import {
   useGetTrashMailQuery,
 } from "../Services/Email/EmailApi";
 import { FiSearch, FiEdit } from "react-icons/fi";
-import { LABEL, queryString } from "../Components/Constants/constants";
 import { BsDot } from "react-icons/bs";
 import { FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { isArray } from "lodash";
+import { LABEL } from "../Constants/constants";
 const EmailList = ({
   setId,
   trash,

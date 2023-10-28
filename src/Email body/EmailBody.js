@@ -10,8 +10,8 @@ import {
 } from "../Services/Email/EmailApi";
 import { IoMdMailUnread } from "react-icons/io";
 
-import { LABEL, queryString } from "../Components/Constants/constants";
 import Swal from "sweetalert2";
+import { LABEL } from "../Constants/constants";
 
 const EmailBody = ({id, mailBodyData ,getAllMail,setmailBodyData }) => {
     const [deleteMailApi] = useDeleteMailApiMutation();
